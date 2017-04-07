@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">MovieManager</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="nav_item_now_playing">Now Playing</string>
+    <string name="nav_item_upcoming">Upcoming</string>
+    <string name="nav_title_profile">Profile</string>
+    <string name="nav_item_logout">Logout</string>
+
+    <string name="img_content_description">Movie Image</string>
+</resources>
