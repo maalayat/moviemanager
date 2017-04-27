@@ -12,7 +12,7 @@ import ec.solmedia.moviemanager.R
 import ec.solmedia.moviemanager.commons.extensions.inflate
 import ec.solmedia.moviemanager.model.Movie
 import ec.solmedia.moviemanager.view.activity.MovieDetailActivity
-import ec.solmedia.moviemanager.view.adapter.MovieAdapter
+import ec.solmedia.moviemanager.view.adapter.MoviesAdapter
 import kotlinx.android.synthetic.main.fragment_upcoming.*
 
 
@@ -30,7 +30,12 @@ class UpcomingFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupRecyclerView()
-        setupAdapter()
+        initAdapter()
+
+        if(savedInstanceState == null) {
+            val movies = initDummyData()
+            (rvUpMovies.adapter as MoviesAdapter).addMovies(movies)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -38,9 +43,9 @@ class UpcomingFragment : Fragment() {
         rvUpMovies.layoutManager = LinearLayoutManager(context)
     }
 
-    private fun setupAdapter() {
+    private fun initAdapter() {
         if (rvUpMovies.adapter == null) {
-            rvUpMovies.adapter = MovieAdapter(initDummyData()) { movie ->
+            rvUpMovies.adapter = MoviesAdapter() { movie ->
                 navigateToMovieDetail(movie)
             }
         }

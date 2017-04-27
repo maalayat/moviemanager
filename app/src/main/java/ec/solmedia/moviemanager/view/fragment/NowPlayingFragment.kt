@@ -12,13 +12,10 @@ import ec.solmedia.moviemanager.R
 import ec.solmedia.moviemanager.commons.extensions.inflate
 import ec.solmedia.moviemanager.model.Movie
 import ec.solmedia.moviemanager.view.activity.MovieDetailActivity
-import ec.solmedia.moviemanager.view.adapter.MovieAdapter
+import ec.solmedia.moviemanager.view.adapter.MoviesAdapter
 import kotlinx.android.synthetic.main.fragment_now_playing.*
 
 
-/**
- * A simple [Fragment] subclass.
- */
 class NowPlayingFragment : Fragment() {
 
     /*private val rvListMovies by lazy {
@@ -27,8 +24,6 @@ class NowPlayingFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        //return inflater!!.inflate(R.layout.fragment_now_playing, container, false)
-        //return container?.inflate(R.layout.news_fragment, true)
         return container?.inflate(R.layout.fragment_now_playing)
     }
 
@@ -37,18 +32,21 @@ class NowPlayingFragment : Fragment() {
 
         setupRecyclerView()
         initAdapter()
+
+        if(savedInstanceState == null) {
+            val movies = initDummyData();
+            (rvMovies.adapter as MoviesAdapter).addMovies(movies)
+        }
     }
 
     private fun setupRecyclerView() {
-        //rvListMovies.setHasFixedSize(true)
-        //rvListMovies.layoutManager = LinearLayoutManager(context)
         rvMovies.setHasFixedSize(true)
         rvMovies.layoutManager = LinearLayoutManager(context)
     }
 
     private fun initAdapter() {
         if (rvMovies.adapter == null) {
-            rvMovies.adapter = MovieAdapter(initDummyData()) {
+            rvMovies.adapter = MoviesAdapter() {
                 navigateToMovieDetail(it)
             }
         }
@@ -56,10 +54,6 @@ class NowPlayingFragment : Fragment() {
 
     private fun initDummyData(): List<Movie> {
         val movies = mutableListOf<Movie>()
-
-        /*(1..10).map {
-            movies.add(Movie("id$it","Titulo $it", "OverView $it", 5f, 2, "http://lorempixel.com/400/400/cats/1/", ""))
-        }*/
         movies.add(Movie("277834", "Moana", "In Ancient Polynesia, when a terrible curse incurred by Maui reaches an impetuous Chieftain's daughter's island, she answers the Ocean's call to seek out the demigod to set things right.", 6.5f, 854, "https://image.tmdb.org/t/p/w342/z4x0Bp48ar3Mda8KiPD1vwSY3D8.jpg", "https://image.tmdb.org/t/p/w780/1qGzqGUd1pa05aqYXGSbLkiBlLB.jpg"))
         movies.add(Movie("121856", "Passengers", "A spacecraft traveling to a distant colony planet and transporting thousands of people has a malfunction in its sleep chambers. As a result, two passengers are awakened 90 years early.", 6.2f, 745, "https://image.tmdb.org/t/p/w342/5gJkVIVU7FDp7AfRAbPSvvdbre2.jpg", "https://image.tmdb.org/t/p/w780/5EW4TR3fWEqpKsWysNcBMtz9Sgp.jpg"))
         movies.add(Movie("330459", "Assassin's Creed", "Lynch discovers he is a descendant of the secret Assassins society through unlocked genetic memories that allow him to relive the adventures of his ancestor, Aguilar, in 15th Century Spain. After gaining incredible knowledge and skills he’s poised to take on the oppressive Knights Templar in the present day.", 5.3f, 691, "https://image.tmdb.org/t/p/w342/tIKFBxBZhSXpIITiiB5Ws8VGXjt.jpg", "https://image.tmdb.org/t/p/w780/5EW4TR3fWEqpKsWysNcBMtz9Sgp.jpg"))

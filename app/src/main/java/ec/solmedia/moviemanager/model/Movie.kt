@@ -2,6 +2,8 @@ package ec.solmedia.moviemanager.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import ec.solmedia.moviemanager.commons.adapter.AdapterConstants
+import ec.solmedia.moviemanager.commons.adapter.ViewType
 
 data class Movie(
         val id: String,
@@ -11,7 +13,7 @@ data class Movie(
         val voteCount: Int,
         val posterPath: String,
         val backDropPath: String
-) : Parcelable {
+) : Parcelable, ViewType {
 
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Movie> = object : Parcelable.Creator<Movie> {
@@ -43,4 +45,6 @@ data class Movie(
     }
 
     override fun describeContents(): Int = 0
+
+    override fun getViewType(): Int = AdapterConstants.MOVIES
 }

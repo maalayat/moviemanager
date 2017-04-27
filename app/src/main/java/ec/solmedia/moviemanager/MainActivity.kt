@@ -33,12 +33,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             view.snack("Replace with your own action") {}
         }
 
-        //val navigationView = findViewById(R.id.nav_view) as NavigationView
         nav_view.setNavigationItemSelectedListener(this)
     }
 
     private fun setupNavigationDrawer() {
-        //val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbarDetail, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.setDrawerListener(toggle)
@@ -53,7 +51,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             finish();
         }
 
-        //val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
