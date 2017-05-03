@@ -9,7 +9,7 @@ import ec.solmedia.moviemanager.commons.adapter.ViewTypeDelegateAdapter
 import ec.solmedia.moviemanager.model.Movie
 
 
-class MoviesAdapter(val listener: (Movie) -> Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MoviesAdapter(listener: (Movie) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
@@ -47,7 +47,7 @@ class MoviesAdapter(val listener: (Movie) -> Unit): RecyclerView.Adapter<Recycle
     }
 
     //For Orientation Change
-    fun getMovies() : List<Movie> {
+    fun getMovies(): List<Movie> {
         return items
                 .filter { it.getViewType() == AdapterConstants.MOVIES }
                 .map { it as Movie }
