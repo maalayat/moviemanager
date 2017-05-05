@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private var itemID: Int = 0
     private val ITEM_ID: String = "itemID"
 
-    private var drawerToggle: ActionBarDrawerToggle? = null
+    lateinit private var drawerToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,12 +39,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        drawerToggle?.syncState()
+        drawerToggle.syncState()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
-        drawerToggle?.onConfigurationChanged(newConfig)
+        drawerToggle.onConfigurationChanged(newConfig)
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -83,17 +83,15 @@ class MainActivity : AppCompatActivity() {
         drawerToggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbarDetail,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        if (drawerToggle != null) {
-            drawer_layout.addDrawerListener(drawerToggle!!)
-        }
+        drawer_layout.addDrawerListener(drawerToggle)
     }
 
     override fun onBackPressed() {
-        val fragmentManager = supportFragmentManager;
+        val fragmentManager = supportFragmentManager
         if (fragmentManager.backStackEntryCount > 1) {
-            fragmentManager.popBackStack();
+            fragmentManager.popBackStack()
         } else {
-            finish();
+            finish()
         }
 
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
