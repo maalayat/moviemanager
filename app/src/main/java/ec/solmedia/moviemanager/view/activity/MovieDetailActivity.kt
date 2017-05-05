@@ -2,7 +2,9 @@ package ec.solmedia.moviemanager.view.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MenuItem
 import ec.solmedia.moviemanager.R
+import ec.solmedia.moviemanager.commons.extensions.consume
 import ec.solmedia.moviemanager.commons.extensions.loadImg
 import ec.solmedia.moviemanager.commons.extensions.snack
 import ec.solmedia.moviemanager.model.Movie
@@ -23,6 +25,11 @@ class MovieDetailActivity : AppCompatActivity() {
         setupListener()
         setupActionBar()
         setupView()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> consume { onBackPressed() }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun setupListener() {
