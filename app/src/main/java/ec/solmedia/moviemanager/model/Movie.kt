@@ -11,14 +11,17 @@ data class Movie(
         val overView: String,
         val voteAverage: Float,
         val voteCount: Int,
-        val posterPath: String,
-        val backDropPath: String
+        val _posterPath: String,
+        val _backDropPath: String
 ) : Parcelable, ViewType {
+
+    val posterPath = "https://image.tmdb.org/t/p/w342$_posterPath"
+    val backDropPath = "https://image.tmdb.org/t/p/w780$_backDropPath"
 
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<Movie> = object : Parcelable.Creator<Movie> {
-            override fun newArray(size: Int): Array<Movie?> = arrayOfNulls(size)
             override fun createFromParcel(source: Parcel): Movie = Movie(source)
+            override fun newArray(size: Int): Array<Movie?> = arrayOfNulls(size)
         }
     }
 
@@ -32,16 +35,14 @@ data class Movie(
             source.readString()
     )
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest?.let {
-            dest.writeString(id)
-            dest.writeString(title)
-            dest.writeString(overView)
-            dest.writeFloat(voteAverage)
-            dest.writeInt(voteCount)
-            dest.writeString(posterPath)
-            dest.writeString(backDropPath)
-        }
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(id)
+        dest.writeString(title)
+        dest.writeString(overView)
+        dest.writeFloat(voteAverage)
+        dest.writeInt(voteCount)
+        dest.writeString(_posterPath)
+        dest.writeString(_backDropPath)
     }
 
     override fun describeContents(): Int = 0

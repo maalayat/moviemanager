@@ -25,6 +25,8 @@ import rx.schedulers.Schedulers
  */
 class UpcomingFragment : RxBaseFragment() {
 
+    private val TYPE: String = "upcoming"
+
     private val movieManager by lazy {
         MovieManager()
     }
@@ -46,11 +48,12 @@ class UpcomingFragment : RxBaseFragment() {
     }
 
     private fun requestMovies() {
-        val subscription = movieManager.getUpComingMovies()
+        val subscription = movieManager
+                .get(TYPE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { retriveMovies -> (rvUpMovies.adapter as MoviesAdapter).addMovies(retriveMovies) },
+                        { retrieveMovies -> (rvUpMovies.adapter as MoviesAdapter).addMovies(retrieveMovies) },
                         { e -> view?.snack(e.localizedMessage) {} }
                 )
 

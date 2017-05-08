@@ -21,9 +21,8 @@ import rx.schedulers.Schedulers
 
 class NowPlayingFragment : RxBaseFragment() {
 
-    /*private val rvListMovies by lazy {
-        rvMovies
-    }*/
+    private val TYPE: String = "now_playing"
+
     private val movieManager by lazy {
         MovieManager()
     }
@@ -46,17 +45,16 @@ class NowPlayingFragment : RxBaseFragment() {
 
     private fun requestMovies() {
         val subscription = movieManager
-                .getNowPlayingMovies()
+                .get(TYPE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { retriveMovies -> (rvMovies.adapter as MoviesAdapter).addMovies(retriveMovies) },
+                        { retrieveMovies -> (rvMovies.adapter as MoviesAdapter).addMovies(retrieveMovies) },
                         { e -> view?.snack(e.localizedMessage) {} }
                 )
 
         subscriptions.add(subscription)
     }
-
 
     private fun setupRecyclerView() {
         rvMovies.setHasFixedSize(true)
