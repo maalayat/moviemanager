@@ -1,4 +1,4 @@
-package ec.solmedia.moviemanager
+package ec.solmedia.moviemanager.view.activity
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import ec.solmedia.moviemanager.R
 import ec.solmedia.moviemanager.commons.extensions.consume
 import ec.solmedia.moviemanager.commons.extensions.snack
 import ec.solmedia.moviemanager.view.fragment.NowPlayingFragment
