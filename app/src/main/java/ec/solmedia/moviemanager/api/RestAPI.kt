@@ -1,4 +1,4 @@
-package ec.solmedia.moviemanager.view.api
+package ec.solmedia.moviemanager.api
 
 import retrofit2.Call
 import retrofit2.Retrofit

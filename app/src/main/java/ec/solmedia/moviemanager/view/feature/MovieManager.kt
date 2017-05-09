@@ -1,7 +1,7 @@
 package ec.solmedia.moviemanager.view.feature
 
 import ec.solmedia.moviemanager.model.Movie
-import ec.solmedia.moviemanager.view.api.RestAPI
+import ec.solmedia.moviemanager.api.RestAPI
 import rx.Observable
 
 class MovieManager(private val api: RestAPI = RestAPI()) {

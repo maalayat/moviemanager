@@ -1,4 +1,4 @@
-package ec.solmedia.moviemanager.view.api
+package ec.solmedia.moviemanager.api
 
 class MovieDBResponse(val page: Int, val results: List<MovieDBDataResponse>)
 
