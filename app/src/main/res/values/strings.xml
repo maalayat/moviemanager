@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MovieManager</string>
+    <string name="app_name">The MovieDB</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -10,5 +10,5 @@
     <string name="nav_title_profile">Profile</string>
     <string name="nav_item_logout">Logout</string>
 
-    <string name="img_content_description">Movie Image</string>
+    <string name="img_content_description">Media Image</string>
 </resources>

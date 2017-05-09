@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Configuración</string>
+    <string name="nav_item_now_playing">En cartelera</string>
+    <string name="nav_item_upcoming">Próximamente</string>
+    <string name="nav_title_profile">Perfil</string>
+    <string name="nav_item_logout">Salir</string>
+</resources>
