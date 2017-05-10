@@ -43,7 +43,7 @@ class MediaAdapter(listener: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycle
     fun addMovies(mediaItems: List<MediaItem>) {
         val initPosition = items.size - 1
         items.addAll(initPosition, mediaItems)
-        notifyItemRangeInserted(initPosition, initPosition + mediaItems.size)
+        notifyItemRangeChanged(initPosition, items.size + 1)
     }
 
     //For Orientation Change

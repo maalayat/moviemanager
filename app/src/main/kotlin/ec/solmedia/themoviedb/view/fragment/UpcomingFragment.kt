@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ec.solmedia.moviemanager.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.commons.extensions.inflate
 import ec.solmedia.themoviedb.commons.extensions.snack
@@ -49,11 +50,14 @@ class UpcomingFragment : RxBaseFragment() {
 
     private fun requestMovies() {
         val subscription = movieManager
-                .get(TYPE)
+                .get(TYPE, media?.page ?: 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { retrieveMovies -> (rvUpMovies.adapter as MediaAdapter).addMovies(retrieveMovies) },
+                        { retrieveMovies ->
+                            media = retrieveMovies
+                            (rvUpMovies.adapter as MediaAdapter).addMovies(retrieveMovies.media)
+                        },
                         { e -> view?.snack(e.localizedMessage) {} }
                 )
 
@@ -61,8 +65,11 @@ class UpcomingFragment : RxBaseFragment() {
     }
 
     private fun setupRecyclerView() {
+        val linearLayout = LinearLayoutManager(context)
         rvUpMovies.setHasFixedSize(true)
-        rvUpMovies.layoutManager = LinearLayoutManager(context)
+        rvUpMovies.layoutManager = linearLayout
+        rvUpMovies.clearOnScrollListeners()
+        rvUpMovies.addOnScrollListener(InfiniteScrollListener({ requestMovies() }, linearLayout))
     }
 
     private fun initAdapter() {

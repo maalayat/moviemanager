@@ -12,12 +12,12 @@ data class MediaItem(val id: String,
                      val overView: String,
                      val voteAverage: Float,
                      val voteCount: Int,
-                     val _posterPath: String,
-                     val _backDropPath: String
+                     val _posterPath: String?,
+                     val _backDropPath: String?
 ) : Parcelable, ViewType {
 
-    val posterPath = "https://image.tmdb.org/t/p/w342$_posterPath"
-    val backDropPath = "https://image.tmdb.org/t/p/w780$_backDropPath"
+    val posterPath = if (_posterPath != null) "https://image.tmdb.org/t/p/w342$_posterPath" else ""
+    val backDropPath = if (_backDropPath != null) "https://image.tmdb.org/t/p/w780$_backDropPath" else ""
 
     companion object {
         @JvmField val CREATOR: Parcelable.Creator<MediaItem> = object : Parcelable.Creator<MediaItem> {
