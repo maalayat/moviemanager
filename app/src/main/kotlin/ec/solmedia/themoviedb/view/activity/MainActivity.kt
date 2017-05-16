@@ -19,9 +19,6 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var itemID: Int = 0
-    private val ITEM_ID: String = "itemID"
-
     lateinit private var drawerToggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,18 +45,7 @@ class MainActivity : AppCompatActivity() {
         drawerToggle.onConfigurationChanged(newConfig)
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putInt(ITEM_ID, itemID)
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        selectItem(nav_view.menu.findItem(savedInstanceState.getInt(ITEM_ID)))
-        super.onRestoreInstanceState(savedInstanceState)
-    }
-
     private fun selectItem(item: MenuItem) {
-        itemID = item.itemId
         title = item.title
         when (item.itemId) {
             R.id.nav_now_playing -> drawer_layout.consume { showFragment(NowPlayingFragment(), true) }
@@ -119,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         ft.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out,
                 R.anim.abc_popup_enter, R.anim.abc_popup_exit)
         ft.replace(R.id.flContent, fragment)
-        ft.addToBackStack("fragBack")
+        ft.addToBackStack(null)
         ft.commit()
     }
 

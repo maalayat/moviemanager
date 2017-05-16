@@ -4,8 +4,31 @@ import android.os.Parcel
 import android.os.Parcelable
 import ec.solmedia.themoviedb.commons.adapter.AdapterConstants
 import ec.solmedia.themoviedb.commons.adapter.ViewType
+import ec.solmedia.themoviedb.commons.extensions.createParcel
 
-data class Media(val page: Int, val media: List<MediaItem>)
+data class Media(
+        val page: Int,
+        val mediaItems: List<MediaItem>) : Parcelable {
+
+    companion object {
+        @JvmField
+        val CREATOR = createParcel { Media(it) }
+    }
+
+    protected constructor(parcelIn: Parcel) : this(
+            parcelIn.readInt(),
+            mutableListOf<MediaItem>().apply {
+                parcelIn.readTypedList(this, MediaItem.CREATOR)
+            }
+    )
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeInt(page)
+        dest.writeTypedList(mediaItems)
+    }
+
+    override fun describeContents(): Int = 0
+}
 
 data class MediaItem(val id: String,
                      val title: String,
@@ -20,10 +43,8 @@ data class MediaItem(val id: String,
     val backDropPath = if (_backDropPath != null) "https://image.tmdb.org/t/p/w780$_backDropPath" else ""
 
     companion object {
-        @JvmField val CREATOR: Parcelable.Creator<MediaItem> = object : Parcelable.Creator<MediaItem> {
-            override fun createFromParcel(source: Parcel): MediaItem = MediaItem(source)
-            override fun newArray(size: Int): Array<MediaItem?> = arrayOfNulls(size)
-        }
+        @JvmField
+        val CREATOR = createParcel { MediaItem(it) }
     }
 
     constructor(source: Parcel) : this(

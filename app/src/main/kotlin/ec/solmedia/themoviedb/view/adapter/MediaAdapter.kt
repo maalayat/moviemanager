@@ -40,14 +40,30 @@ class MediaAdapter(listener: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycle
         return this.items.get(position).getViewType()
     }
 
-    fun addMovies(mediaItems: List<MediaItem>) {
+    fun addMediaItems(mediaItems: List<MediaItem>) {
         val initPosition = items.size - 1
-        items.addAll(initPosition, mediaItems)
-        notifyItemRangeChanged(initPosition, items.size + 1)
+        items.removeAt(initPosition)
+        notifyItemRemoved(initPosition)
+
+        // insert news and the loading at the end of the list
+        items.addAll(mediaItems)
+        items.add(loadingItem)
+        notifyItemRangeChanged(initPosition, items.size + 1 /* plus loading item */)
     }
 
-    //For Orientation Change
-    fun getMedias(): List<MediaItem> {
+    fun clearAndAddMediaItems(mediaItems: List<MediaItem>) {
+        items.clear()
+        notifyItemRangeRemoved(0, getLastPosition())
+
+        items.addAll(mediaItems)
+        items.add(loadingItem)
+        notifyItemRangeInserted(0, items.size)
+
+    }
+
+    private fun getLastPosition() = if (items.lastIndex == -1) 0 else items.lastIndex
+
+    fun getMediaItems(): List<MediaItem> {
         return items
                 .filter { it.getViewType() == AdapterConstants.MEDIA }
                 .map { it as MediaItem }

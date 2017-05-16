@@ -3,6 +3,8 @@
 package ec.solmedia.themoviedb.commons.extensions
 
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
 import android.support.v4.widget.DrawerLayout
@@ -56,3 +58,10 @@ fun Snackbar.action(action: String, color: Int? = null, listener: (View) -> Unit
     setAction(action, listener)
     color?.let { setActionTextColor(color) }
 }
+
+inline fun <reified T : Parcelable> createParcel(
+        crossinline createFromParcel: (Parcel) -> T?): Parcelable.Creator<T> =
+        object : Parcelable.Creator<T> {
+            override fun createFromParcel(source: Parcel): T? = createFromParcel(source)
+            override fun newArray(size: Int): Array<out T?> = arrayOfNulls(size)
+        }

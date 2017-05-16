@@ -12,6 +12,7 @@ import ec.solmedia.moviemanager.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.commons.extensions.inflate
 import ec.solmedia.themoviedb.commons.extensions.snack
+import ec.solmedia.themoviedb.model.Media
 import ec.solmedia.themoviedb.model.MediaItem
 import ec.solmedia.themoviedb.view.activity.MediaDetailActivity
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
@@ -28,7 +29,7 @@ class UpcomingFragment : RxBaseFragment() {
 
     private val TYPE: String = "upcoming"
 
-    private val movieManager by lazy {
+    private val mediaManager by lazy {
         MediaManager()
     }
 
@@ -43,20 +44,31 @@ class UpcomingFragment : RxBaseFragment() {
         setupRecyclerView()
         initAdapter()
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_MEDIA)) {
+            media = savedInstanceState.get(KEY_MEDIA) as Media
+            (rvUpMovies.adapter as MediaAdapter).clearAndAddMediaItems(media!!.mediaItems)
+        } else {
             requestMovies()
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        val movies = (rvUpMovies.adapter as MediaAdapter).getMediaItems()
+        if (media != null && movies.isNotEmpty()) {
+            outState.putParcelable(KEY_MEDIA, media?.copy(mediaItems = movies))
+        }
+        super.onSaveInstanceState(outState)
+    }
+
     private fun requestMovies() {
-        val subscription = movieManager
+        val subscription = mediaManager
                 .get(TYPE, media?.page ?: 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { retrieveMovies ->
                             media = retrieveMovies
-                            (rvUpMovies.adapter as MediaAdapter).addMovies(retrieveMovies.media)
+                            (rvUpMovies.adapter as MediaAdapter).addMediaItems(retrieveMovies.mediaItems)
                         },
                         { e -> view?.snack(e.localizedMessage) {} }
                 )
@@ -65,11 +77,13 @@ class UpcomingFragment : RxBaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        val linearLayout = LinearLayoutManager(context)
-        rvUpMovies.setHasFixedSize(true)
-        rvUpMovies.layoutManager = linearLayout
-        rvUpMovies.clearOnScrollListeners()
-        rvUpMovies.addOnScrollListener(InfiniteScrollListener({ requestMovies() }, linearLayout))
+        rvUpMovies.apply {
+            val linearLayout = LinearLayoutManager(context)
+            setHasFixedSize(true)
+            layoutManager = linearLayout
+            clearOnScrollListeners()
+            addOnScrollListener(InfiniteScrollListener({ requestMovies() }, linearLayout))
+        }
     }
 
     private fun initAdapter() {

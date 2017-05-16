@@ -8,6 +8,9 @@ open class RxBaseFragment : Fragment() {
 
     protected var subscriptions = CompositeSubscription()
     protected var media: Media? = null
+    companion object {
+        val KEY_MEDIA = "media"
+    }
 
     override fun onResume() {
         super.onResume()
