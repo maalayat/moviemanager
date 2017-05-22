@@ -4,7 +4,8 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class RestAPI {
+class MediaRestAPI : MediaAPI {
+
 
     private val URL: String = "https://api.themoviedb.org/3/"
     private val API_KEY: String = ""
@@ -20,5 +21,6 @@ class RestAPI {
         mediaDatabaseApi = retrofit.create(MediaDatabaseApi::class.java)
     }
 
-    fun get(type: String, page: Int): Call<MediaDBResponse> = mediaDatabaseApi.get(type, API_KEY, page)
+    override fun get(type: String, page: Int): Call<MediaDBResponse> = mediaDatabaseApi.get(type, API_KEY, page)
+
 }

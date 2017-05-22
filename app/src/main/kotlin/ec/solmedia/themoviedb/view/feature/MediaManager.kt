@@ -1,11 +1,12 @@
 package ec.solmedia.themoviedb.view.feature
 
-import ec.solmedia.themoviedb.api.RestAPI
+import ec.solmedia.themoviedb.api.MediaAPI
+import ec.solmedia.themoviedb.api.MediaRestAPI
 import ec.solmedia.themoviedb.model.Media
 import ec.solmedia.themoviedb.model.MediaItem
 import rx.Observable
 
-class MediaManager(private val api: RestAPI = RestAPI()) {
+class MediaManager(private val api: MediaAPI = MediaRestAPI()) {
 
     fun get(type: String, page: Int): Observable<Media> {
         return Observable.create {
