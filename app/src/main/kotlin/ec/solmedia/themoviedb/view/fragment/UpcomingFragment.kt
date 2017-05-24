@@ -1,7 +1,6 @@
 package ec.solmedia.themoviedb.view.fragment
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -10,16 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import ec.solmedia.moviemanager.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.R
+import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.inflate
 import ec.solmedia.themoviedb.commons.extensions.snack
 import ec.solmedia.themoviedb.model.Media
-import ec.solmedia.themoviedb.model.MediaItem
-import ec.solmedia.themoviedb.view.activity.MediaDetailActivity
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
 import ec.solmedia.themoviedb.view.feature.MediaManager
 import kotlinx.android.synthetic.main.fragment_upcoming.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import javax.inject.Inject
 
 
 /**
@@ -29,8 +28,12 @@ class UpcomingFragment : RxBaseFragment() {
 
     private val TYPE: String = "upcoming"
 
-    private val mediaManager by lazy {
-        MediaManager()
+    @Inject lateinit var mediaManager: MediaManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        TheMovieDBApp.upcomingComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -88,15 +91,9 @@ class UpcomingFragment : RxBaseFragment() {
 
     private fun initAdapter() {
         if (rvUpMovies.adapter == null) {
-            rvUpMovies.adapter = MediaAdapter { movie ->
-                navigateToMovieDetail(movie)
+            rvUpMovies.adapter = MediaAdapter {
+                navigateToMediaDetail(it)
             }
         }
-    }
-
-    private fun navigateToMovieDetail(mediaItem: MediaItem) {
-        val intent: Intent = Intent(context, MediaDetailActivity::class.java)
-        intent.putExtra(MediaDetailActivity.EXTRA_MEDIA_ITEM, mediaItem)
-        startActivity(intent)
     }
 }

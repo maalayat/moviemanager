@@ -5,12 +5,12 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface MediaDatabaseApi {
+interface TheMovieDBService {
 
     @GET("movie/{type}")
     fun get(@Path("type") type: String,
             @Query("api_key") apiKey: String,
             @Query("page") page: Int,
-            @Query("language") language: String = "en-US"): Call<MediaDBResponse>
+            @Query("language") language: String = "en-US"): Call<TheMovieDBResponse>
 
 }

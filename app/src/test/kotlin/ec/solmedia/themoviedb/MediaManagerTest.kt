@@ -1,8 +1,8 @@
 package ec.solmedia.themoviedb;
 
-import ec.solmedia.themoviedb.api.MediaAPI
-import ec.solmedia.themoviedb.api.MediaDBDataResponse
-import ec.solmedia.themoviedb.api.MediaDBResponse
+import ec.solmedia.themoviedb.api.TheMovieDBAPI
+import ec.solmedia.themoviedb.api.TheMovieDBDataResponse
+import ec.solmedia.themoviedb.api.TheMovieDBResponse
 import ec.solmedia.themoviedb.model.Media
 import ec.solmedia.themoviedb.view.feature.MediaManager
 import okhttp3.MediaType
@@ -19,21 +19,21 @@ import rx.observers.TestSubscriber
 
 class MediaManagerTest {
     var testSub = TestSubscriber<Media>()
-    var apiMock = mock<MediaAPI>()
-    var callMock = mock<Call<MediaDBResponse>>()
+    var apiMock = mock<TheMovieDBAPI>()
+    var callMock = mock<Call<TheMovieDBResponse>>()
 
     @Before
     fun setup() {
         testSub = TestSubscriber<Media>()
-        apiMock = mock<MediaAPI>()
-        callMock = mock<Call<MediaDBResponse>>()
+        apiMock = mock<TheMovieDBAPI>()
+        callMock = mock<Call<TheMovieDBResponse>>()
         `when`(apiMock.get(anyString(), anyInt())).thenReturn(callMock)
     }
 
     @Test
     fun testSuccess_basic() {
         //prepare
-        val mediaResponse = MediaDBResponse(1, listOf())
+        val mediaResponse = TheMovieDBResponse(1, listOf())
         val response = Response.success(mediaResponse)
 
         `when`(callMock.execute()).thenReturn(response)
@@ -51,7 +51,7 @@ class MediaManagerTest {
     @Test
     fun testSuccess_checkOneMedia() {
         //prepare
-        val mediaData = MediaDBDataResponse(
+        val mediaData = TheMovieDBDataResponse(
                 "id",
                 "title",
                 "overview",
@@ -62,7 +62,7 @@ class MediaManagerTest {
         )
 
         //prepare
-        val mediaResponse = MediaDBResponse(1, listOf(mediaData))
+        val mediaResponse = TheMovieDBResponse(1, listOf(mediaData))
         val response = Response.success(mediaResponse)
 
         `when`(callMock.execute()).thenReturn(response)
@@ -83,7 +83,7 @@ class MediaManagerTest {
     @Test
     fun testError() {
         //prepare
-        val responseError = Response.error<MediaDBResponse>(500,
+        val responseError = Response.error<TheMovieDBResponse>(500,
                 ResponseBody.create(MediaType.parse("application/json"), ""))
         `when`(callMock.execute()).thenReturn(responseError)
 

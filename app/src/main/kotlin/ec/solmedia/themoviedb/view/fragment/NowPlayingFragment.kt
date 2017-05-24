@@ -1,7 +1,6 @@
 package ec.solmedia.themoviedb.view.fragment
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -9,24 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import ec.solmedia.moviemanager.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.R
+import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.inflate
 import ec.solmedia.themoviedb.commons.extensions.snack
 import ec.solmedia.themoviedb.model.Media
-import ec.solmedia.themoviedb.model.MediaItem
-import ec.solmedia.themoviedb.view.activity.MediaDetailActivity
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
 import ec.solmedia.themoviedb.view.feature.MediaManager
 import kotlinx.android.synthetic.main.fragment_now_playing.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import javax.inject.Inject
 
 
 class NowPlayingFragment : RxBaseFragment() {
 
     private val TYPE: String = "now_playing"
 
-    private val mediaManager by lazy {
-        MediaManager()
+    @Inject lateinit var mediaManager: MediaManager
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        TheMovieDBApp.nowPlayingComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -85,14 +88,8 @@ class NowPlayingFragment : RxBaseFragment() {
     private fun initAdapter() {
         if (rvMovies.adapter == null) {
             rvMovies.adapter = MediaAdapter {
-                navigateToMovieDetail(it)
+                navigateToMediaDetail(it)
             }
         }
-    }
-
-    private fun navigateToMovieDetail(mediaItem: MediaItem) {
-        val intent: Intent = Intent(context, MediaDetailActivity::class.java)
-        intent.putExtra(MediaDetailActivity.EXTRA_MEDIA_ITEM, mediaItem)
-        startActivity(intent)
     }
 }
