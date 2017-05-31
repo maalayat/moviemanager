@@ -77,7 +77,7 @@ class MediaManagerTest {
         testSub.assertCompleted()
 
         assert(testSub.onNextEvents[0].mediaItems[0].title == mediaData.title)
-        assert(testSub.onNextEvents[0].mediaItems[0].overView == mediaData.title)
+        assert(testSub.onNextEvents[0].mediaItems[0].overView == mediaData.overview)
     }
 
     @Test
