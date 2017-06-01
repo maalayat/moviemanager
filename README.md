@@ -1,17 +1,26 @@
 # Movie Manager
-Proyecto Android y Kotlin que muestra las ultimas novedades con respecto a las películas del momento
+Android client of TheMovieDB project.
 
-Este proyecto es el resultado del entrenamiento gratuito organizado por [Antonio Leiva](https://devexperto.com).
+The app is programmed entirely with Kotlin.
 
-La aplicación base es la misma que se está usando en el curso [Android App Development for Beginners](https://courses.edx.org/courses/course-v1:GalileoX+CAAD002X+1T2017/info) pero escrita de cero con Kotlin
+## Build status
+[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=592f442b02d0b9000179147d&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/592f442b02d0b9000179147d/build/latest?branch=master)
 
-## Proyecto
-* [Información del reto](https://devexperto.com/training3-aksdj/)
+## Libreries used
+- Kotlin
+- Anko
+- Picasso
+- RxJava
+- RxAndroid
+- Retrofit
+- Dagger 2
 
-## Referencias
+## Links
 * https://devexperto.com/blog/
 * https://medium.com/@juanchosaravia/learn-kotlin-while-developing-an-android-app-introduction-567e21ff9664
 * https://antonioleiva.com/kotlin-android-developers-book/
 
-## Futuro
-Espero seguir agregando cosas y mejorándolo mientras sigo aprendiendo Kotlin
+## ToDo
+- Movies(Popular, Top Rated)
+- Tv Shows(Popular, Top Rated, On TV, Airing today)
+- Discover
