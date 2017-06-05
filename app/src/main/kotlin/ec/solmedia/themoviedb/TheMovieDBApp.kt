@@ -11,7 +11,6 @@ class TheMovieDBApp : Application() {
         lateinit var nowPlayingComponent: NowPlayingComponent
         lateinit var upcomingComponent: UpcomingComponent
         val BASE_URL = "https://api.themoviedb.org/3/"
-        val API_KEY = ""
     }
 
     override fun onCreate() {
