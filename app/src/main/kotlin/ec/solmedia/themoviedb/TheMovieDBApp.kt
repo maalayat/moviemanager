@@ -3,6 +3,7 @@ package ec.solmedia.themoviedb
 import android.app.Application
 import com.squareup.leakcanary.LeakCanary
 import ec.solmedia.themoviedb.di.*
+import java.util.*
 
 
 class TheMovieDBApp : Application() {
@@ -11,14 +12,20 @@ class TheMovieDBApp : Application() {
         lateinit var nowPlayingComponent: NowPlayingComponent
         lateinit var upcomingComponent: UpcomingComponent
         val BASE_URL = "https://api.themoviedb.org/3/"
+        lateinit var sDefSystemLanguage: String
     }
 
     override fun onCreate() {
         super.onCreate()
 
+        initLanguage()
         initLeakCanary()
         initNowPlayingComponent()
         initUpcomingComponent()
+    }
+
+    private fun initLanguage() {
+        sDefSystemLanguage = Locale.getDefault().language
     }
 
     private fun initLeakCanary() {

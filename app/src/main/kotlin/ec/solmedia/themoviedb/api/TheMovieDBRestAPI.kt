@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class TheMovieDBRestAPI @Inject constructor(private val service: TheMovieDBService) : TheMovieDBAPI {
 
-    override fun get(type: String, page: Int): Call<TheMovieDBResponse> {
-        return service.get(type, BuildConfig.TMDB_API_KEY, page)
+    override fun get(type: String, page: Int, locale: String): Call<TheMovieDBResponse> {
+        return service.get(type, BuildConfig.TMDB_API_KEY, page, locale)
     }
 
 }

@@ -1,5 +1,6 @@
 package ec.solmedia.themoviedb.view.feature
 
+import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.api.TheMovieDBAPI
 import ec.solmedia.themoviedb.model.Media
 import ec.solmedia.themoviedb.model.MediaItem
@@ -13,7 +14,7 @@ class MediaManager @Inject constructor(private val api: TheMovieDBAPI) {
     fun get(type: String, page: Int): Observable<Media> {
         return Observable.create {
             subscriber ->
-            val callResponse = api.get(type, page + 1)
+            val callResponse = api.get(type, page + 1, TheMovieDBApp.sDefSystemLanguage)
             val response = callResponse.execute()
 
             if (response.isSuccessful) {
