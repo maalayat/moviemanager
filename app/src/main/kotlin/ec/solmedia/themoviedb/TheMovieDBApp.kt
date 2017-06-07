@@ -3,32 +3,38 @@ package ec.solmedia.themoviedb
 import android.app.Application
 import com.squareup.leakcanary.LeakCanary
 import ec.solmedia.themoviedb.di.*
-import java.util.*
 
 
 class TheMovieDBApp : Application() {
 
     companion object {
+        lateinit var mainComponent: MainComponent
         lateinit var nowPlayingComponent: NowPlayingComponent
         lateinit var upcomingComponent: UpcomingComponent
+
         val BASE_URL = "https://api.themoviedb.org/3/"
-        lateinit var sDefSystemLanguage: String
+        val LOCALE_KEY = "LocaleKey"
+        val SHARED_PREFERENCES_NAME = "UserPrefs"
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        initLanguage()
-        initLeakCanary()
+        setupLeakCanary()
+
+        initMainComponent()
         initNowPlayingComponent()
         initUpcomingComponent()
     }
 
-    private fun initLanguage() {
-        sDefSystemLanguage = Locale.getDefault().language
+    private fun initMainComponent() {
+        mainComponent = DaggerMainComponent
+                .builder()
+                .appModule(AppModule(this))
+                .build()
     }
 
-    private fun initLeakCanary() {
+    private fun setupLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return
         }

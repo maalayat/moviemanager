@@ -1,5 +1,6 @@
 package ec.solmedia.themoviedb;
 
+import android.content.SharedPreferences
 import ec.solmedia.themoviedb.api.TheMovieDBAPI
 import ec.solmedia.themoviedb.api.TheMovieDBDataResponse
 import ec.solmedia.themoviedb.api.TheMovieDBResponse
@@ -21,13 +22,16 @@ class MediaManagerTest {
     var testSub = TestSubscriber<Media>()
     var apiMock = mock<TheMovieDBAPI>()
     var callMock = mock<Call<TheMovieDBResponse>>()
+    var sPrefMock = mock<SharedPreferences>()
 
     @Before
     fun setup() {
         testSub = TestSubscriber<Media>()
         apiMock = mock<TheMovieDBAPI>()
         callMock = mock<Call<TheMovieDBResponse>>()
-        `when`(apiMock.get(anyString(), anyInt())).thenReturn(callMock)
+        sPrefMock = mock<SharedPreferences>()
+        `when`(apiMock.get(anyString(), anyInt(), anyString())).thenReturn(callMock)
+        `when`(sPrefMock.getString(anyString(), anyString())).thenReturn("en-US")
     }
 
     @Test
@@ -39,7 +43,7 @@ class MediaManagerTest {
         `when`(callMock.execute()).thenReturn(response)
 
         //call
-        val mediaManager = MediaManager(apiMock)
+        val mediaManager = MediaManager(apiMock, sPrefMock)
         mediaManager.get(anyString(), anyInt()).subscribe(testSub)
 
         //assert
@@ -68,7 +72,7 @@ class MediaManagerTest {
         `when`(callMock.execute()).thenReturn(response)
 
         //call
-        val mediaManager = MediaManager(apiMock)
+        val mediaManager = MediaManager(apiMock, sPrefMock)
         mediaManager.get(anyString(), anyInt()).subscribe(testSub)
 
         //assert
@@ -88,7 +92,7 @@ class MediaManagerTest {
         `when`(callMock.execute()).thenReturn(responseError)
 
         //call
-        val mediaManager = MediaManager(apiMock)
+        val mediaManager = MediaManager(apiMock, sPrefMock)
         mediaManager.get(anyString(), anyInt()).subscribe(testSub)
 
         // assert

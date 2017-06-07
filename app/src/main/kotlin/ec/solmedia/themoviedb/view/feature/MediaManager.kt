@@ -1,5 +1,6 @@
 package ec.solmedia.themoviedb.view.feature
 
+import android.content.SharedPreferences
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.api.TheMovieDBAPI
 import ec.solmedia.themoviedb.model.Media
@@ -9,12 +10,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MediaManager @Inject constructor(private val api: TheMovieDBAPI) {
+class MediaManager @Inject constructor(
+        private val api: TheMovieDBAPI,
+        private val sPref: SharedPreferences) {
 
     fun get(type: String, page: Int): Observable<Media> {
         return Observable.create {
             subscriber ->
-            val callResponse = api.get(type, page + 1, TheMovieDBApp.sDefSystemLanguage)
+            val callResponse = api.get(
+                    type,
+                    page + 1,
+                    sPref.getString(TheMovieDBApp.LOCALE_KEY, "en-US")
+            )
             val response = callResponse.execute()
 
             if (response.isSuccessful) {
