@@ -14,8 +14,8 @@ import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.consume
 import ec.solmedia.themoviedb.commons.extensions.snack
-import ec.solmedia.themoviedb.view.fragment.NowPlayingFragment
-import ec.solmedia.themoviedb.view.fragment.UpcomingFragment
+import ec.solmedia.themoviedb.view.fragment.MediaFragment
+import ec.solmedia.themoviedb.view.fragment.RxBaseFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.util.*
@@ -54,10 +54,22 @@ class MainActivity : AppCompatActivity() {
     private fun selectItem(item: MenuItem) {
         title = item.title
         when (item.itemId) {
-            R.id.nav_now_playing -> drawer_layout.consume { showFragment(NowPlayingFragment(), true) }
-            R.id.nav_upcoming -> drawer_layout.consume { showFragment(UpcomingFragment(), true) }
+            R.id.nav_now_playing -> drawer_layout.consume {
+                val args: Bundle = Bundle()
+                args.putString(RxBaseFragment.EXTRA_TYPE, "now_playing")
+                showFragment(MediaFragment(), true, args)
+            }
+            R.id.nav_upcoming -> drawer_layout.consume {
+                val args: Bundle = Bundle()
+                args.putString(RxBaseFragment.EXTRA_TYPE, "upcoming")
+                showFragment(MediaFragment(), true, args)
+            }
             R.id.nav_logout -> drawer_layout.consume { } //TODO logout
-            else -> drawer_layout.consume { showFragment(NowPlayingFragment(), true) }
+            else -> drawer_layout.consume {
+                val args: Bundle = Bundle()
+                args.putString(RxBaseFragment.EXTRA_TYPE, "now_playing")
+                showFragment(MediaFragment(), true, args)
+            }
         }
     }
 
@@ -113,13 +125,14 @@ class MainActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    private fun showFragment(fragment: Fragment, cleanStack: Boolean = false) {
+    private fun showFragment(fragment: Fragment, cleanStack: Boolean = false, args: Bundle) {
         val ft = supportFragmentManager.beginTransaction()
         if (cleanStack) {
             clearBackStack()
         }
         ft.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out,
                 R.anim.abc_popup_enter, R.anim.abc_popup_exit)
+        fragment.arguments = args
         ft.replace(R.id.flContent, fragment)
         ft.addToBackStack(null)
         ft.commit()

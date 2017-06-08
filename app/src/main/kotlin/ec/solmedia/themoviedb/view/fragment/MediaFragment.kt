@@ -2,7 +2,6 @@ package ec.solmedia.themoviedb.view.fragment
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -15,30 +14,28 @@ import ec.solmedia.themoviedb.commons.extensions.snack
 import ec.solmedia.themoviedb.model.Media
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
 import ec.solmedia.themoviedb.view.feature.MediaManager
-import kotlinx.android.synthetic.main.fragment_upcoming.*
+import kotlinx.android.synthetic.main.fragment_media.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import javax.inject.Inject
 
 
-/**
- * A simple [Fragment] subclass.
- */
-class UpcomingFragment : RxBaseFragment() {
+class MediaFragment : RxBaseFragment() {
 
-    private val TYPE: String = "upcoming"
-
+    val adapter = MediaAdapter { navigateToMediaDetail(it) }
     @Inject lateinit var mediaManager: MediaManager
+    private lateinit var type: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        TheMovieDBApp.upcomingComponent.inject(this)
+        TheMovieDBApp.mediaComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_upcoming)
+        type = arguments.getString(EXTRA_TYPE)
+        return container?.inflate(R.layout.fragment_media)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -49,29 +46,29 @@ class UpcomingFragment : RxBaseFragment() {
 
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_MEDIA)) {
             media = savedInstanceState.get(KEY_MEDIA) as Media
-            (rvUpMovies.adapter as MediaAdapter).clearAndAddMediaItems(media!!.mediaItems)
+            adapter.clearAndAddMediaItems(media!!.mediaItems)
         } else {
             requestMovies()
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val movies = (rvUpMovies.adapter as MediaAdapter).getMediaItems()
-        if (media != null && movies.isNotEmpty()) {
-            outState.putParcelable(KEY_MEDIA, media?.copy(mediaItems = movies))
+        val items = adapter.getMediaItems()
+        if (media != null && items.isNotEmpty()) {
+            outState.putParcelable(KEY_MEDIA, media?.copy(mediaItems = items))
         }
         super.onSaveInstanceState(outState)
     }
 
     private fun requestMovies() {
         val subscription = mediaManager
-                .get(TYPE, media?.page ?: 0)
+                .get(type, media?.page ?: 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { retrieveMovies ->
                             media = retrieveMovies
-                            (rvUpMovies.adapter as MediaAdapter).addMediaItems(retrieveMovies.mediaItems)
+                            adapter.addMediaItems(retrieveMovies.mediaItems)
                         },
                         { e -> view?.snack(e.localizedMessage) {} }
                 )
@@ -80,9 +77,9 @@ class UpcomingFragment : RxBaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        rvUpMovies.apply {
-            val linearLayout = LinearLayoutManager(context)
+        rvMedia.apply {
             setHasFixedSize(true)
+            val linearLayout = LinearLayoutManager(context)
             layoutManager = linearLayout
             clearOnScrollListeners()
             addOnScrollListener(InfiniteScrollListener({ requestMovies() }, linearLayout))
@@ -90,10 +87,8 @@ class UpcomingFragment : RxBaseFragment() {
     }
 
     private fun initAdapter() {
-        if (rvUpMovies.adapter == null) {
-            rvUpMovies.adapter = MediaAdapter {
-                navigateToMediaDetail(it)
-            }
+        if (rvMedia.adapter == null) {
+            rvMedia.adapter = adapter
         }
     }
 }

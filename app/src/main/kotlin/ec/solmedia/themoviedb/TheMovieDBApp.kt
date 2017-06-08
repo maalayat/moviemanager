@@ -9,8 +9,7 @@ class TheMovieDBApp : Application() {
 
     companion object {
         lateinit var mainComponent: MainComponent
-        lateinit var nowPlayingComponent: NowPlayingComponent
-        lateinit var upcomingComponent: UpcomingComponent
+        lateinit var mediaComponent: MediaComponent
 
         val BASE_URL = "https://api.themoviedb.org/3/"
         val LOCALE_KEY = "LocaleKey"
@@ -23,8 +22,7 @@ class TheMovieDBApp : Application() {
         setupLeakCanary()
 
         initMainComponent()
-        initNowPlayingComponent()
-        initUpcomingComponent()
+        initMediaComponent()
     }
 
     private fun setupLeakCanary() {
@@ -41,15 +39,8 @@ class TheMovieDBApp : Application() {
                 .build()
     }
 
-    private fun initNowPlayingComponent() {
-        nowPlayingComponent = DaggerNowPlayingComponent
-                .builder()
-                .appModule(AppModule(this))
-                .build()
-    }
-
-    private fun initUpcomingComponent() {
-        upcomingComponent = DaggerUpcomingComponent
+    private fun initMediaComponent() {
+        mediaComponent = DaggerMediaComponent
                 .builder()
                 .appModule(AppModule(this))
                 .build()

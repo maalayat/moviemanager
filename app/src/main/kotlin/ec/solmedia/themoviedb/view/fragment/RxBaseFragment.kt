@@ -14,6 +14,7 @@ open class RxBaseFragment : Fragment() {
 
     companion object {
         val KEY_MEDIA = "media"
+        val EXTRA_TYPE = "RxBaseFragment:extraType"
     }
 
     override fun onResume() {
@@ -28,7 +29,7 @@ open class RxBaseFragment : Fragment() {
 
     protected fun navigateToMediaDetail(mediaItem: MediaItem) {
         val intent: Intent = Intent(context, MediaDetailActivity::class.java)
-        intent.putExtra(MediaDetailActivity.EXTRA_MEDIA_ITEM, mediaItem)
+        intent.putExtra(MediaDetailActivity.EXTRA_MEDIA, mediaItem)
         startActivity(intent)
     }
 }

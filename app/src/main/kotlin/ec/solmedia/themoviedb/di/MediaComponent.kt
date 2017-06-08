@@ -1,7 +1,7 @@
 package ec.solmedia.themoviedb.di
 
 import dagger.Component
-import ec.solmedia.themoviedb.view.fragment.UpcomingFragment
+import ec.solmedia.themoviedb.view.fragment.MediaFragment
 import javax.inject.Singleton
 
 @Singleton
@@ -10,6 +10,6 @@ import javax.inject.Singleton
         MediaModule::class,
         NetworkModule::class)
 )
-interface UpcomingComponent {
-    fun inject(upcomingFragment: UpcomingFragment)
+interface MediaComponent {
+    fun inject(mediaFragment: MediaFragment)
 }

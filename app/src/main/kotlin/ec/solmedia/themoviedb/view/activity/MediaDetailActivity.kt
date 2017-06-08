@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.content_media_detail.*
 class MediaDetailActivity : AppCompatActivity() {
 
     companion object {
-        val EXTRA_MEDIA_ITEM = "MediaDetail"
+        val EXTRA_MEDIA = "MediaDetailActivity:media"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +43,7 @@ class MediaDetailActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        val mediaItem: MediaItem = intent.extras.getParcelable(EXTRA_MEDIA_ITEM)
+        val mediaItem: MediaItem = intent.extras.getParcelable(EXTRA_MEDIA)
         title = mediaItem.title
         tvOverView.text = mediaItem.overView
         ivMediaBackdrop.loadImg(mediaItem.backDropPath)
