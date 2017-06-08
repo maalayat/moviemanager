@@ -27,18 +27,18 @@ class TheMovieDBApp : Application() {
         initUpcomingComponent()
     }
 
-    private fun initMainComponent() {
-        mainComponent = DaggerMainComponent
-                .builder()
-                .appModule(AppModule(this))
-                .build()
-    }
-
     private fun setupLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return
         }
         LeakCanary.install(this)
+    }
+
+    private fun initMainComponent() {
+        mainComponent = DaggerMainComponent
+                .builder()
+                .appModule(AppModule(this))
+                .build()
     }
 
     private fun initNowPlayingComponent() {
