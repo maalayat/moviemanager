@@ -11,6 +11,14 @@
             android:id="@+id/nav_upcoming"
             android:icon="@drawable/ic_menu_upcoming"
             android:title="@string/nav_item_upcoming" />
+        <item
+            android:id="@+id/nav_popular"
+            android:icon="@drawable/ic_menu_popular"
+            android:title="@string/nav_item_popular" />
+        <item
+            android:id="@+id/nav_top_rated"
+            android:icon="@drawable/ic_menu_top_rated"
+            android:title="@string/nav_item_top_rated" />
     </group>
 
     <item android:title="@string/nav_title_profile">

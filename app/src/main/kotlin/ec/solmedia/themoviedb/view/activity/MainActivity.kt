@@ -64,6 +64,16 @@ class MainActivity : AppCompatActivity() {
                 args.putString(RxBaseFragment.EXTRA_TYPE, "upcoming")
                 showFragment(MediaFragment(), true, args)
             }
+            R.id.nav_popular -> drawer_layout.consume {
+                val args: Bundle = Bundle()
+                args.putString(RxBaseFragment.EXTRA_TYPE, "popular")
+                showFragment(MediaFragment(), true, args)
+            }
+            R.id.nav_top_rated -> drawer_layout.consume {
+                val args: Bundle = Bundle()
+                args.putString(RxBaseFragment.EXTRA_TYPE, "top_rated")
+                showFragment(MediaFragment(), true, args)
+            }
             R.id.nav_logout -> drawer_layout.consume { } //TODO logout
             else -> drawer_layout.consume {
                 val args: Bundle = Bundle()
