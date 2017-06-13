@@ -21,7 +21,7 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachRoot: Boolean = false): V
     return LayoutInflater.from(context).inflate(layoutRes, this, attachRoot)
 }
 
-fun ImageView.loadImg(imageUrl: String) {
+fun ImageView.loadImg(imageUrl: String, width: Int, height: Int) {
     if (TextUtils.isEmpty(imageUrl)) {
         Picasso.with(context)
                 .load(R.mipmap.ic_launcher)
@@ -29,6 +29,7 @@ fun ImageView.loadImg(imageUrl: String) {
     } else {
         Picasso.with(context)
                 .load(imageUrl)
+                .resize(width, height)
                 .into(this)
     }
 }

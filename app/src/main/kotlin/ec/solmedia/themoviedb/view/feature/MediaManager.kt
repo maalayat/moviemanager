@@ -14,11 +14,12 @@ class MediaManager @Inject constructor(
         private val api: TheMovieDBAPI,
         private val sPref: SharedPreferences) {
 
-    fun get(type: String, page: Int): Observable<Media> {
+    fun get(mediaType: String, category: String, page: Int): Observable<Media> {
         return Observable.create {
             subscriber ->
             val callResponse = api.get(
-                    type,
+                    mediaType,
+                    category,
                     page + 1,
                     sPref.getString(TheMovieDBApp.LOCALE_KEY, "en-US")
             )
@@ -27,7 +28,7 @@ class MediaManager @Inject constructor(
             if (response.isSuccessful) {
                 val mediaResponse = response.body()
                 val mediaItems = mediaResponse.results.map {
-                    MediaItem(it.id, it.title, it.overview, it.vote_average,
+                    MediaItem(it.id, it.title, it.name, it.overview, it.vote_average,
                             it.vote_count, it.poster_path, it.backdrop_path)
                 }
                 val media = Media(mediaResponse.page, mediaItems)

@@ -31,7 +31,8 @@ data class Media(
 }
 
 data class MediaItem(val id: String,
-                     val title: String,
+                     val title: String?,
+                     val name: String?,
                      val overView: String,
                      val voteAverage: Float,
                      val voteCount: Int,
@@ -51,6 +52,7 @@ data class MediaItem(val id: String,
             source.readString(),
             source.readString(),
             source.readString(),
+            source.readString(),
             source.readFloat(),
             source.readInt(),
             source.readString(),
@@ -62,6 +64,7 @@ data class MediaItem(val id: String,
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(id)
         dest.writeString(title)
+        dest.writeString(name)
         dest.writeString(overView)
         dest.writeFloat(voteAverage)
         dest.writeInt(voteCount)

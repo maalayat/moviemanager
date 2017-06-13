@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="action_settings">Configuración</string>
+
+    <string name="nav_item_movies">Películas</string>
     <string name="nav_item_now_playing">En cartelera</string>
     <string name="nav_item_upcoming">Próximamente</string>
     <string name="nav_item_popular">Populares</string>
     <string name="nav_item_top_rated">Mejor valoradas</string>
+
+    <string name="nav_item_tvshows">Series</string>
+    <string name="nav_item_tv_popular">Popular</string>
+    <string name="nav_item_tv_top_rated">Mejor valoradas</string>
+    <string name="nav_item_tv_ontv">En televisión</string>
+    <string name="nav_item_tv_airing_today">Aún al aire</string>
+
     <string name="nav_title_profile">Perfil</string>
     <string name="nav_item_logout">Salir</string>
+
 </resources>

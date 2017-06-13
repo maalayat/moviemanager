@@ -14,7 +14,7 @@ open class RxBaseFragment : Fragment() {
 
     companion object {
         val KEY_MEDIA = "media"
-        val EXTRA_TYPE = "RxBaseFragment:extraType"
+        val KEY_TITLE = "title"
     }
 
     override fun onResume() {

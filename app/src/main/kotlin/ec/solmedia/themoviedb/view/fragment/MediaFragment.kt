@@ -1,6 +1,7 @@
 package ec.solmedia.themoviedb.view.fragment
 
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -24,7 +25,8 @@ class MediaFragment : RxBaseFragment() {
 
     val adapter = MediaAdapter { navigateToMediaDetail(it) }
     @Inject lateinit var mediaManager: MediaManager
-    private lateinit var type: String
+    private lateinit var category: String
+    private lateinit var mediaType: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +36,8 @@ class MediaFragment : RxBaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        type = arguments.getString(EXTRA_TYPE)
+        category = arguments.getString(FragmentProvider.EXTRA_CATEGORY)
+        mediaType = arguments.getString(FragmentProvider.EXTRA_MEDIA_TYPE)
         return container?.inflate(R.layout.fragment_media)
     }
 
@@ -50,6 +53,10 @@ class MediaFragment : RxBaseFragment() {
         } else {
             requestMovies()
         }
+
+        if(savedInstanceState != null && savedInstanceState.containsKey(KEY_TITLE)) {
+            activity.title = savedInstanceState.get(KEY_TITLE) as CharSequence?
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -57,12 +64,14 @@ class MediaFragment : RxBaseFragment() {
         if (media != null && items.isNotEmpty()) {
             outState.putParcelable(KEY_MEDIA, media?.copy(mediaItems = items))
         }
+        outState.putString(KEY_TITLE, activity.title.toString())
+
         super.onSaveInstanceState(outState)
     }
 
     private fun requestMovies() {
         val subscription = mediaManager
-                .get(type, media?.page ?: 0)
+                .get(mediaType, category, media?.page ?: 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

@@ -44,8 +44,10 @@ class MediaDetailActivity : AppCompatActivity() {
 
     private fun setupView() {
         val mediaItem: MediaItem = intent.extras.getParcelable(EXTRA_MEDIA)
-        title = mediaItem.title
+        title = mediaItem.title ?: mediaItem.name
         tvOverView.text = mediaItem.overView
-        ivMediaBackdrop.loadImg(mediaItem.backDropPath)
+        ivMediaBackdrop.loadImg(mediaItem.backDropPath,
+                resources.getDimensionPixelSize(R.dimen.backDrop_width),
+                resources.getDimensionPixelSize(R.dimen.backDrop_height))
     }
 }

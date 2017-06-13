@@ -3,8 +3,6 @@ package ec.solmedia.themoviedb.view.activity
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -13,13 +11,12 @@ import android.view.MenuItem
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.consume
-import ec.solmedia.themoviedb.commons.extensions.snack
-import ec.solmedia.themoviedb.view.fragment.MediaFragment
-import ec.solmedia.themoviedb.view.fragment.RxBaseFragment
+import ec.solmedia.themoviedb.view.fragment.adapter.MediaPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.util.*
 import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,8 +34,44 @@ class MainActivity : AppCompatActivity() {
         setupSharedPreferences()
 
         if (savedInstanceState == null) {
-            selectItem(nav_view.menu.getItem(0))
+            selectItem(nav_view.menu.findItem(R.id.nav_movies))
         }
+    }
+
+    private fun setupViewPagerMovies() {
+        val categories = listOf(
+                getString(R.string.movie_category_now_playing),
+                getString(R.string.movie_category_upcoming),
+                getString(R.string.movie_category_popular),
+                getString(R.string.movie_category_top_rated)
+        )
+        val titles = listOf(
+                getString(R.string.nav_item_now_playing),
+                getString(R.string.nav_item_upcoming),
+                getString(R.string.nav_item_popular),
+                getString(R.string.nav_item_top_rated)
+        )
+
+        viewPager.adapter = MediaPagerAdapter(supportFragmentManager, "movie", categories, titles)
+        tabs.setupWithViewPager(viewPager)
+    }
+
+    private fun setupViewPagerTvShows() {
+        val categories = listOf(
+                getString(R.string.tv_category_popular),
+                getString(R.string.tv_category_top_rated),
+                getString(R.string.tv_category_on_the_air),
+                getString(R.string.tv_category_airing_today)
+        )
+        val titles = listOf(
+                getString(R.string.nav_item_tv_popular),
+                getString(R.string.nav_item_tv_top_rated),
+                getString(R.string.nav_item_tv_ontv),
+                getString(R.string.nav_item_tv_airing_today)
+        )
+
+        viewPager.adapter = MediaPagerAdapter(supportFragmentManager, "tv", categories, titles)
+        tabs.setupWithViewPager(viewPager)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -54,31 +87,15 @@ class MainActivity : AppCompatActivity() {
     private fun selectItem(item: MenuItem) {
         title = item.title
         when (item.itemId) {
-            R.id.nav_now_playing -> drawer_layout.consume {
-                val args: Bundle = Bundle()
-                args.putString(RxBaseFragment.EXTRA_TYPE, "now_playing")
-                showFragment(MediaFragment(), true, args)
+            R.id.nav_movies -> drawer_layout.consume {
+                setupViewPagerMovies()
             }
-            R.id.nav_upcoming -> drawer_layout.consume {
-                val args: Bundle = Bundle()
-                args.putString(RxBaseFragment.EXTRA_TYPE, "upcoming")
-                showFragment(MediaFragment(), true, args)
-            }
-            R.id.nav_popular -> drawer_layout.consume {
-                val args: Bundle = Bundle()
-                args.putString(RxBaseFragment.EXTRA_TYPE, "popular")
-                showFragment(MediaFragment(), true, args)
-            }
-            R.id.nav_top_rated -> drawer_layout.consume {
-                val args: Bundle = Bundle()
-                args.putString(RxBaseFragment.EXTRA_TYPE, "top_rated")
-                showFragment(MediaFragment(), true, args)
+            R.id.nav_tvshows -> drawer_layout.consume {
+                setupViewPagerTvShows()
             }
             R.id.nav_logout -> drawer_layout.consume { } //TODO logout
             else -> drawer_layout.consume {
-                val args: Bundle = Bundle()
-                args.putString(RxBaseFragment.EXTRA_TYPE, "now_playing")
-                showFragment(MediaFragment(), true, args)
+                setupViewPagerMovies()
             }
         }
     }
@@ -88,10 +105,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        fab.setOnClickListener { view ->
-            view.snack("Replace with your own action") {}
-        }
-
         nav_view.setNavigationItemSelectedListener({
             selectItem(it)
             true
@@ -129,30 +142,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        return super.onPrepareOptionsMenu(menu)
-    }
-
-    private fun showFragment(fragment: Fragment, cleanStack: Boolean = false, args: Bundle) {
-        val ft = supportFragmentManager.beginTransaction()
-        if (cleanStack) {
-            clearBackStack()
-        }
-        ft.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out,
-                R.anim.abc_popup_enter, R.anim.abc_popup_exit)
-        fragment.arguments = args
-        ft.replace(R.id.flContent, fragment)
-        ft.addToBackStack(null)
-        ft.commit()
-    }
-
-    fun clearBackStack() {
-        val manager = supportFragmentManager
-        if (manager.backStackEntryCount > 0) {
-            val firts = manager.getBackStackEntryAt(0)
-            manager.popBackStack(firts.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        }
     }
 }

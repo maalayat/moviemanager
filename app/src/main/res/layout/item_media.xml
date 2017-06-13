@@ -20,36 +20,36 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            app:srcCompat="@mipmap/ic_launcher"
-            />
+            app:srcCompat="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:maxLength="20"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@android:color/black"
-            tools:text="Captain America"
+            android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/ivMediaImage"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/ivMediaImage"
-            android:layout_alignParentTop="true"/>
+            android:layout_toRightOf="@+id/ivMediaImage"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@android:color/black"
+            android:textStyle="normal|bold"
+            tools:text="Captain America" />
 
         <TextView
             android:id="@+id/tvOverView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitle"
-            android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/ivMediaImage"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/ivMediaImage"
-            android:maxLength="190"
-            tools:text="Captain America Overview"
-            />
+            android:layout_toRightOf="@+id/ivMediaImage"
+            android:ellipsize="end"
+            android:maxLines="3"
+            tools:text="Captain America Overview" />
 
     </RelativeLayout>
 

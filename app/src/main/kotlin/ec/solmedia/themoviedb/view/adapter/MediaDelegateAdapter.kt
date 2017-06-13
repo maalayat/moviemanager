@@ -25,8 +25,10 @@ class MediaDelegateAdapter(val listener: (MediaItem) -> Unit) : ViewTypeDelegate
             parent.inflate(R.layout.item_media)) {
 
         fun bind(item: MediaItem, listener: (MediaItem) -> Unit) = with(itemView) {
-            ivMediaImage.loadImg(item.posterPath)
-            tvTitle.text = item.title
+            ivMediaImage.loadImg(item.posterPath,
+                    resources.getDimensionPixelSize(R.dimen.poster_width),
+                    resources.getDimensionPixelSize(R.dimen.poster_height))
+            tvTitle.text = item.title ?: item.name
             tvOverView.text = item.overView
             setOnClickListener { listener(item) }
         }

@@ -3,5 +3,5 @@ package ec.solmedia.themoviedb.api
 import retrofit2.Call
 
 interface TheMovieDBAPI {
-    fun get(type: String, page: Int, locale: String): Call<TheMovieDBResponse>
+    fun get(media: String, category: String, page: Int, locale: String): Call<TheMovieDBResponse>
 }

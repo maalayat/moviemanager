@@ -19,8 +19,10 @@ The app is programmed entirely with Kotlin.
 * https://devexperto.com/blog/
 * https://medium.com/@juanchosaravia/learn-kotlin-while-developing-an-android-app-introduction-567e21ff9664
 * https://antonioleiva.com/kotlin-android-developers-book/
+* https://guides.codepath.com/android/ViewPager-with-FragmentPagerAdapter#dynamic-viewpager-fragments
 
 ## ToDo
-- Movies(Popular, Top Rated)
-- Tv Shows(Popular, Top Rated, On TV, Airing today)
+- ~~Movies(Popular, Top Rated)~~
+- ~~Tv Shows(Popular, Top Rated, On TV, Airing today)~~
+- Info details
 - Discover
