@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import ec.solmedia.themoviedb.R
+import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.consume
 import ec.solmedia.themoviedb.commons.extensions.loadImg
 import ec.solmedia.themoviedb.commons.extensions.snack
@@ -46,7 +47,9 @@ class MediaDetailActivity : AppCompatActivity() {
         val mediaItem: MediaItem = intent.extras.getParcelable(EXTRA_MEDIA)
         title = mediaItem.title ?: mediaItem.name
         tvOverView.text = mediaItem.overView
-        ivMediaBackdrop.loadImg(mediaItem.backDropPath,
+        ivMediaBackdrop.loadImg(
+                mediaItem.backDropPath,
+                TheMovieDBApp.PATH_BACKDROP,
                 resources.getDimensionPixelSize(R.dimen.backDrop_width),
                 resources.getDimensionPixelSize(R.dimen.backDrop_height))
     }

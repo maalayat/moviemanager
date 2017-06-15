@@ -37,7 +37,7 @@ class MediaManagerTest {
     @Test
     fun testSuccess_basic() {
         //prepare
-        val mediaResponse = TheMovieDBResponse(1, listOf())
+        val mediaResponse = TheMovieDBResponse(1, 10, 30, listOf())
         val response = Response.success(mediaResponse)
 
         `when`(callMock.execute()).thenReturn(response)
@@ -60,6 +60,12 @@ class MediaManagerTest {
                 "title",
                 "name",
                 "overview",
+                "first",
+                "relase",
+                "otitle",
+                "oname",
+                "olang",
+                6.1f,
                 5.5f,
                 7,
                 "poster_path",
@@ -67,7 +73,7 @@ class MediaManagerTest {
         )
 
         //prepare
-        val mediaResponse = TheMovieDBResponse(1, listOf(mediaData))
+        val mediaResponse = TheMovieDBResponse(1, 10, 30, listOf(mediaData))
         val response = Response.success(mediaResponse)
 
         `when`(callMock.execute()).thenReturn(response)

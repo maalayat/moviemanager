@@ -31,4 +31,8 @@
     <string name="tv_category_top_rated">top_rated</string>
     <string name="tv_category_on_the_air">on_the_air</string>
     <string name="tv_category_airing_today">airing_today</string>
+    <string name="msg_img_desc_vote_average">Vote average</string>
+    <string name="msg_img_desc_vote_count">Vote count</string>
+    <string name="msg_img_desc_release_date">Release Date</string>
+    <string name="msg_img_desc_poster_img">Poster image</string>
 </resources>

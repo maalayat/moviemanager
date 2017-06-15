@@ -16,19 +16,20 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.squareup.picasso.Picasso
 import ec.solmedia.themoviedb.R
+import ec.solmedia.themoviedb.TheMovieDBApp
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachRoot)
 }
 
-fun ImageView.loadImg(imageUrl: String, width: Int, height: Int) {
+fun ImageView.loadImg(imageUrl: String, imagePath: String, width: Int, height: Int) {
     if (TextUtils.isEmpty(imageUrl)) {
         Picasso.with(context)
                 .load(R.mipmap.ic_launcher)
                 .into(this)
     } else {
         Picasso.with(context)
-                .load(imageUrl)
+                .load(TheMovieDBApp.BASE_IMAGE+"$imagePath$imageUrl")
                 .resize(width, height)
                 .into(this)
     }

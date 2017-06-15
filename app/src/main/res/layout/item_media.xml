@@ -20,7 +20,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@mipmap/ic_launcher"
+            android:contentDescription="@string/msg_img_desc_poster_img"/>
 
         <TextView
             android:id="@+id/tvTitle"
@@ -29,27 +30,132 @@
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/ivMediaImage"
             android:layout_toRightOf="@+id/ivMediaImage"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@android:color/black"
+            android:textSize="16sp"
             android:textStyle="normal|bold"
             tools:text="Captain America" />
+
+        <TextView
+            android:id="@+id/tvReleaseDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/ivMediaImage"
+            android:layout_toRightOf="@+id/ivMediaImage"
+            android:maxLength="4"
+            android:textSize="12sp"
+            tools:text="2017-06-25" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/tvTitle"
+            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="6dp"
+            android:layout_toEndOf="@+id/tvReleaseDate"
+            android:layout_toRightOf="@+id/tvReleaseDate"
+            android:contentDescription="@string/msg_img_desc_release_date"
+            android:tint="@android:color/darker_gray"
+            app:srcCompat="@drawable/ic_date" />
 
         <TextView
             android:id="@+id/tvOverView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvTitle"
+            android:layout_below="@id/tvReleaseDate"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/ivMediaImage"
             android:layout_toRightOf="@+id/ivMediaImage"
             android:ellipsize="end"
-            android:maxLines="3"
+            android:maxLines="4"
+            android:textColor="#de000000"
             tools:text="Captain America Overview" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvOverView"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/ivMediaImage"
+            android:layout_toRightOf="@+id/ivMediaImage">
+
+            <LinearLayout
+                android:id="@+id/llAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/llVoteCount"
+                android:layout_toStartOf="@+id/llVoteCount"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvVoteAverage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    tools:text="7.1" />
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:tint="@android:color/darker_gray"
+                    app:srcCompat="@drawable/ic_star"
+                    android:contentDescription="@string/msg_img_desc_vote_average"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llVoteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvVoteCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:textSize="12sp"
+                    tools:text="1224" />
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:tint="@android:color/darker_gray"
+                    app:srcCompat="@drawable/ic_vote"
+                    android:contentDescription="@string/msg_img_desc_vote_count"/>
+            </LinearLayout>
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

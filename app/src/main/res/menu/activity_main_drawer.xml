@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/the_movie_database">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_movies"
-                    android:checked="true"
-                    android:icon="@drawable/ic_menu_popular"
-                    android:title="@string/nav_item_movies" />
-                <item
-                    android:id="@+id/nav_tvshows"
-                    android:icon="@drawable/ic_menu_top_rated"
-                    android:title="@string/nav_item_tvshows" />
-            </group>
-        </menu>
-    </item>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_movies"
+            android:icon="@drawable/ic_menu_popular"
+            android:title="@string/nav_item_movies" />
+        <item
+            android:id="@+id/nav_tvshows"
+            android:icon="@drawable/ic_menu_top_rated"
+            android:title="@string/nav_item_tvshows" />
+    </group>
 
     <item android:title="@string/nav_title_profile">
         <menu>

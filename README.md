@@ -1,5 +1,5 @@
 # Movie Manager
-Android client of TheMovieDB project.
+Simple [TMDb](http://themoviedb.org/) Android client.
 
 The app is programmed entirely with Kotlin.
 
@@ -26,3 +26,4 @@ The app is programmed entirely with Kotlin.
 - ~~Tv Shows(Popular, Top Rated, On TV, Airing today)~~
 - Info details
 - Discover
+- Add movie and TV trailers, teasers, clips

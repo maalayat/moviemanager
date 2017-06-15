@@ -8,6 +8,8 @@ import ec.solmedia.themoviedb.commons.extensions.createParcel
 
 data class Media(
         val page: Int,
+        val totalResults: Int,
+        val totalPages: Int,
         val mediaItems: List<MediaItem>) : Parcelable {
 
     companion object {
@@ -16,7 +18,7 @@ data class Media(
     }
 
     protected constructor(parcelIn: Parcel) : this(
-            parcelIn.readInt(),
+            parcelIn.readInt(), parcelIn.readInt(), parcelIn.readInt(),
             mutableListOf<MediaItem>().apply {
                 parcelIn.readTypedList(this, MediaItem.CREATOR)
             }
@@ -34,14 +36,17 @@ data class MediaItem(val id: String,
                      val title: String?,
                      val name: String?,
                      val overView: String,
+                     val firstAirDate: String?,
+                     val releaseDate: String?, //val genreIds: Array<Int>,
+                     val originalTitle: String?,
+                     val originalName: String?,
+                     val originalLanguage: String, //val originalCountry: String?,
+                     val popularity: Float,
                      val voteAverage: Float,
                      val voteCount: Int,
-                     val _posterPath: String?,
-                     val _backDropPath: String?
+                     val posterPath: String,
+                     val backDropPath: String
 ) : Parcelable, ViewType {
-
-    val posterPath = if (_posterPath != null) "https://image.tmdb.org/t/p/w342$_posterPath" else ""
-    val backDropPath = if (_backDropPath != null) "https://image.tmdb.org/t/p/w780$_backDropPath" else ""
 
     companion object {
         @JvmField
@@ -49,14 +54,20 @@ data class MediaItem(val id: String,
     }
 
     constructor(source: Parcel) : this(
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readFloat(),
-            source.readInt(),
-            source.readString(),
-            source.readString()
+            source.readString(), //id
+            source.readString(), //title
+            source.readString(), //name
+            source.readString(), //overView
+            source.readString(), //firstAirDate
+            source.readString(), //releaseDate
+            source.readString(), //originalTitle
+            source.readString(), //originalName
+            source.readString(), //originalLanguage
+            source.readFloat(), //popularity
+            source.readFloat(), //voteAverage
+            source.readInt(), //voteCount
+            source.readString(), //_posterPath
+            source.readString()//_backDropPath
     )
 
     override fun describeContents() = 0
@@ -66,10 +77,16 @@ data class MediaItem(val id: String,
         dest.writeString(title)
         dest.writeString(name)
         dest.writeString(overView)
+        dest.writeString(firstAirDate)
+        dest.writeString(releaseDate)
+        dest.writeString(originalTitle)
+        dest.writeString(originalName)
+        dest.writeString(originalLanguage)
+        dest.writeFloat(popularity)
         dest.writeFloat(voteAverage)
         dest.writeInt(voteCount)
-        dest.writeString(_posterPath)
-        dest.writeString(_backDropPath)
+        dest.writeString(posterPath)
+        dest.writeString(backDropPath)
     }
 
     override fun getViewType(): Int = AdapterConstants.MEDIA

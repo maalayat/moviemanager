@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="poster_width">114dp</dimen>
-    <dimen name="poster_height">171dp</dimen>
-    <dimen name="backDrop_width">195dp</dimen>
-    <dimen name="backDrop_height">109dp</dimen>
+    <dimen name="poster_width">85dp</dimen>
+    <dimen name="poster_height">129dp</dimen>
+    <dimen name="backDrop_width">260dp</dimen>
+    <dimen name="backDrop_height">146dp</dimen>
 </resources>

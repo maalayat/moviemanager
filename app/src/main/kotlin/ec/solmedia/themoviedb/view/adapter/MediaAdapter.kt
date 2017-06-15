@@ -58,7 +58,10 @@ class MediaAdapter(listener: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycle
         items.addAll(mediaItems)
         items.add(loadingItem)
         notifyItemRangeInserted(0, items.size)
+    }
 
+    fun removeLoadingItem() {
+        items.remove(loadingItem)
     }
 
     private fun getLastPosition() = if (items.lastIndex == -1) 0 else items.lastIndex

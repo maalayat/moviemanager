@@ -12,6 +12,9 @@ class TheMovieDBApp : Application() {
         lateinit var mediaComponent: MediaComponent
 
         val BASE_URL = "https://api.themoviedb.org/3/"
+        val BASE_IMAGE = "https://image.tmdb.org/t/p/"
+        val PATH_BACKDROP = "w780"
+        val PATH_POSTER = "w342"
         val LOCALE_KEY = "LocaleKey"
         val SHARED_PREFERENCES_NAME = "UserPrefs"
     }

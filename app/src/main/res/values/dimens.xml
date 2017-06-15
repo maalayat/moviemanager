@@ -8,8 +8,8 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="poster_width">228dp</dimen>
-    <dimen name="poster_height">342dp</dimen>
-    <dimen name="backDrop_width">397dp</dimen>
-    <dimen name="backDrop_height">219dp</dimen>
+    <dimen name="poster_width">152dp</dimen>
+    <dimen name="poster_height">228dp</dimen>
+    <dimen name="backDrop_width">520dp</dimen>
+    <dimen name="backDrop_height">293dp</dimen>
 </resources>

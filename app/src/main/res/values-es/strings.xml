@@ -17,5 +17,9 @@
 
     <string name="nav_title_profile">Perfil</string>
     <string name="nav_item_logout">Salir</string>
+    <string name="msg_img_desc_vote_average">Voto promedio</string>
+    <string name="msg_img_desc_vote_count">Número de votos</string>
+    <string name="msg_img_desc_release_date">Fecha de lanzamiento</string>
+    <string name="msg_img_desc_poster_img">Imagen de poster</string>
 
 </resources>

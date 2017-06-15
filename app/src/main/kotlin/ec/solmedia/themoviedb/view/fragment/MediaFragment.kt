@@ -1,7 +1,6 @@
 package ec.solmedia.themoviedb.view.fragment
 
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -54,7 +53,7 @@ class MediaFragment : RxBaseFragment() {
             requestMovies()
         }
 
-        if(savedInstanceState != null && savedInstanceState.containsKey(KEY_TITLE)) {
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_TITLE)) {
             activity.title = savedInstanceState.get(KEY_TITLE) as CharSequence?
         }
     }
@@ -70,19 +69,25 @@ class MediaFragment : RxBaseFragment() {
     }
 
     private fun requestMovies() {
-        val subscription = mediaManager
-                .get(mediaType, category, media?.page ?: 0)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { retrieveMovies ->
-                            media = retrieveMovies
-                            adapter.addMediaItems(retrieveMovies.mediaItems)
-                        },
-                        { e -> view?.snack(e.localizedMessage) {} }
-                )
+        val actualPage = media?.page ?: -1
+        val totalPage = media?.totalPages ?: 0
+        if (actualPage < totalPage) {
+            val subscription = mediaManager
+                    .get(mediaType, category, media?.page ?: 0)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            { retrieveMovies ->
+                                media = retrieveMovies
+                                adapter.addMediaItems(retrieveMovies.mediaItems)
+                            },
+                            { e -> view?.snack(e.localizedMessage) {} }
+                    )
 
-        subscriptions.add(subscription)
+            subscriptions.add(subscription)
+        } else {
+            adapter.removeLoadingItem()
+        }
     }
 
     private fun setupRecyclerView() {
