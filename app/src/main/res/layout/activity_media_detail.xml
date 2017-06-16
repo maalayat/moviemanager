@@ -31,7 +31,8 @@
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                android:minHeight="100dp"/>
+                android:minHeight="100dp"
+                android:contentDescription="@string/msg_img_desc_back_drop"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarDetail"
@@ -52,6 +53,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        android:src="@drawable/ic_favorite" />
+        app:srcCompat="@drawable/ic_favorite" />
 
 </android.support.design.widget.CoordinatorLayout>

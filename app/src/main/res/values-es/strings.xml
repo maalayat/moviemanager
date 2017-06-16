@@ -21,5 +21,6 @@
     <string name="msg_img_desc_vote_count">Número de votos</string>
     <string name="msg_img_desc_release_date">Fecha de lanzamiento</string>
     <string name="msg_img_desc_poster_img">Imagen de poster</string>
+    <string name="msg_img_desc_back_drop">Imagen de fondo</string>
 
 </resources>

@@ -57,12 +57,12 @@
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
             android:layout_below="@+id/tvTitle"
             android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/tvReleaseDate"
             android:layout_toRightOf="@+id/tvReleaseDate"
             android:contentDescription="@string/msg_img_desc_release_date"
@@ -117,13 +117,14 @@
                     tools:text="7.1" />
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_marginLeft="4dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@string/msg_img_desc_vote_average"
                     android:tint="@android:color/darker_gray"
-                    app:srcCompat="@drawable/ic_star"
-                    android:contentDescription="@string/msg_img_desc_vote_average"/>
+                    app:srcCompat="@drawable/ic_star" />
             </LinearLayout>
 
             <LinearLayout
@@ -146,13 +147,14 @@
                     tools:text="1224" />
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@string/msg_img_desc_vote_count"
                     android:tint="@android:color/darker_gray"
-                    app:srcCompat="@drawable/ic_vote"
-                    android:contentDescription="@string/msg_img_desc_vote_count"/>
+                    app:srcCompat="@drawable/ic_vote" />
             </LinearLayout>
         </RelativeLayout>
 

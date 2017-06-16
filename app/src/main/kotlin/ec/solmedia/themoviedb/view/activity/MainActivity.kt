@@ -34,26 +34,8 @@ class MainActivity : AppCompatActivity() {
         setupSharedPreferences()
 
         if (savedInstanceState == null) {
-            selectItem(nav_view.menu.findItem(R.id.nav_movies))
+            selectItem(nav_view.menu.findItem(R.id.nav_tvshows))
         }
-    }
-
-    private fun setupViewPagerMovies() {
-        val categories = listOf(
-                getString(R.string.movie_category_now_playing),
-                getString(R.string.movie_category_upcoming),
-                getString(R.string.movie_category_popular),
-                getString(R.string.movie_category_top_rated)
-        )
-        val titles = listOf(
-                getString(R.string.nav_item_now_playing),
-                getString(R.string.nav_item_upcoming),
-                getString(R.string.nav_item_popular),
-                getString(R.string.nav_item_top_rated)
-        )
-
-        viewPager.adapter = MediaPagerAdapter(supportFragmentManager, "movie", categories, titles)
-        tabs.setupWithViewPager(viewPager)
     }
 
     private fun setupViewPagerTvShows() {
@@ -74,6 +56,24 @@ class MainActivity : AppCompatActivity() {
         tabs.setupWithViewPager(viewPager)
     }
 
+    private fun setupViewPagerMovies() {
+        val categories = listOf(
+                getString(R.string.movie_category_now_playing),
+                getString(R.string.movie_category_upcoming),
+                getString(R.string.movie_category_popular),
+                getString(R.string.movie_category_top_rated)
+        )
+        val titles = listOf(
+                getString(R.string.nav_item_now_playing),
+                getString(R.string.nav_item_upcoming),
+                getString(R.string.nav_item_popular),
+                getString(R.string.nav_item_top_rated)
+        )
+
+        viewPager.adapter = MediaPagerAdapter(supportFragmentManager, "movie", categories, titles)
+        tabs.setupWithViewPager(viewPager)
+    }
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         drawerToggle.syncState()
@@ -87,15 +87,15 @@ class MainActivity : AppCompatActivity() {
     private fun selectItem(item: MenuItem) {
         title = item.title
         when (item.itemId) {
-            R.id.nav_movies -> drawer_layout.consume {
-                setupViewPagerMovies()
-            }
             R.id.nav_tvshows -> drawer_layout.consume {
                 setupViewPagerTvShows()
             }
+            R.id.nav_movies -> drawer_layout.consume {
+                setupViewPagerMovies()
+            }
             R.id.nav_logout -> drawer_layout.consume { } //TODO logout
             else -> drawer_layout.consume {
-                setupViewPagerMovies()
+                setupViewPagerTvShows()
             }
         }
     }
