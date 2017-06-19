@@ -23,6 +23,12 @@ class MainActivity : AppCompatActivity() {
     lateinit private var drawerToggle: ActionBarDrawerToggle
     @Inject lateinit var sharedPreferences: SharedPreferences
 
+    private var menuItemId: Int = 0
+
+    companion object {
+        val KEY_MENU_ITEM = "MainActivity:menuItem"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,7 +41,20 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             selectItem(nav_view.menu.findItem(R.id.nav_tvshows))
+        } else {
+            menuItemId = savedInstanceState.getInt(KEY_MENU_ITEM)
+            selectItem(nav_view.menu.findItem(menuItemId))
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_MENU_ITEM, menuItemId)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        menuItemId = savedInstanceState.getInt(KEY_MENU_ITEM)
     }
 
     private fun setupViewPagerTvShows() {
@@ -86,6 +105,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun selectItem(item: MenuItem) {
         title = item.title
+        menuItemId = item.itemId
         when (item.itemId) {
             R.id.nav_tvshows -> drawer_layout.consume {
                 setupViewPagerTvShows()
