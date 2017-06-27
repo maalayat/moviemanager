@@ -22,15 +22,18 @@
     <string name="nav_title_profile">Profile</string>
     <string name="nav_item_logout">Logout</string>
 
+    <string name="movie_type">movie</string>
     <string name="movie_category_now_playing">now_playing</string>
     <string name="movie_category_upcoming">upcoming</string>
     <string name="movie_category_popular">popular</string>
     <string name="movie_category_top_rated">top_rated</string>
 
+    <string name="tv_type">tv</string>
     <string name="tv_category_popular">popular</string>
     <string name="tv_category_top_rated">top_rated</string>
     <string name="tv_category_on_the_air">on_the_air</string>
     <string name="tv_category_airing_today">airing_today</string>
+
     <string name="msg_img_desc_vote_average">Vote average</string>
     <string name="msg_img_desc_vote_count">Vote count</string>
     <string name="msg_img_desc_release_date">Release Date</string>

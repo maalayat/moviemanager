@@ -1,6 +1,7 @@
 package ec.solmedia.themoviedb
 
 import android.app.Application
+import android.support.v4.app.FragmentActivity
 import com.squareup.leakcanary.LeakCanary
 import ec.solmedia.themoviedb.di.*
 
@@ -8,7 +9,6 @@ import ec.solmedia.themoviedb.di.*
 class TheMovieDBApp : Application() {
 
     companion object {
-        lateinit var mainComponent: MainComponent
         lateinit var mediaComponent: MediaComponent
 
         val BASE_URL = "https://api.themoviedb.org/3/"
@@ -23,8 +23,6 @@ class TheMovieDBApp : Application() {
         super.onCreate()
 
         setupLeakCanary()
-
-        initMainComponent()
         initMediaComponent()
     }
 
@@ -35,10 +33,10 @@ class TheMovieDBApp : Application() {
         LeakCanary.install(this)
     }
 
-    private fun initMainComponent() {
-        mainComponent = DaggerMainComponent
-                .builder()
+    fun getMainComponent(fragmentActivity: FragmentActivity): MainComponent {
+        return DaggerMainComponent.builder()
                 .appModule(AppModule(this))
+                .adapterModule(AdapterModule(fragmentActivity, this))
                 .build()
     }
 

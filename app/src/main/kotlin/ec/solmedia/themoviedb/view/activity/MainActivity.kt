@@ -11,6 +11,8 @@ import android.view.MenuItem
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.consume
+import ec.solmedia.themoviedb.di.qualifier.movie.MovieQualifier
+import ec.solmedia.themoviedb.di.qualifier.tv.TvQualifier
 import ec.solmedia.themoviedb.view.fragment.adapter.MediaPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -21,7 +23,12 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     lateinit private var drawerToggle: ActionBarDrawerToggle
-    @Inject lateinit var sharedPreferences: SharedPreferences
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+    @field:[Inject TvQualifier]
+    lateinit var tvAdapter: MediaPagerAdapter
+    @field:[Inject MovieQualifier]
+    lateinit var movieAdater: MediaPagerAdapter
 
     private var menuItemId: Int = 0
 
@@ -58,38 +65,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewPagerTvShows() {
-        val categories = listOf(
-                getString(R.string.tv_category_popular),
-                getString(R.string.tv_category_top_rated),
-                getString(R.string.tv_category_on_the_air),
-                getString(R.string.tv_category_airing_today)
-        )
-        val titles = listOf(
-                getString(R.string.nav_item_tv_popular),
-                getString(R.string.nav_item_tv_top_rated),
-                getString(R.string.nav_item_tv_ontv),
-                getString(R.string.nav_item_tv_airing_today)
-        )
-
-        viewPager.adapter = MediaPagerAdapter(supportFragmentManager, "tv", categories, titles)
+        viewPager.adapter = tvAdapter
         tabs.setupWithViewPager(viewPager)
     }
 
     private fun setupViewPagerMovies() {
-        val categories = listOf(
-                getString(R.string.movie_category_now_playing),
-                getString(R.string.movie_category_upcoming),
-                getString(R.string.movie_category_popular),
-                getString(R.string.movie_category_top_rated)
-        )
-        val titles = listOf(
-                getString(R.string.nav_item_now_playing),
-                getString(R.string.nav_item_upcoming),
-                getString(R.string.nav_item_popular),
-                getString(R.string.nav_item_top_rated)
-        )
-
-        viewPager.adapter = MediaPagerAdapter(supportFragmentManager, "movie", categories, titles)
+        viewPager.adapter = movieAdater
         tabs.setupWithViewPager(viewPager)
     }
 
@@ -121,7 +102,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupInjection() {
-        TheMovieDBApp.mainComponent.inject(this)
+        (application as TheMovieDBApp).getMainComponent(this).inject(this)
     }
 
     private fun setupListeners() {
