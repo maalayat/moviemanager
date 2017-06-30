@@ -1,4 +1,4 @@
-package ec.solmedia.themoviedb.di
+package ec.solmedia.themoviedb.di.module
 
 import android.content.Context
 import android.support.v4.app.FragmentActivity
@@ -14,14 +14,14 @@ import ec.solmedia.themoviedb.di.qualifier.tv.CategoriesTvQualifier
 import ec.solmedia.themoviedb.di.qualifier.tv.TitlesTvQualifier
 import ec.solmedia.themoviedb.di.qualifier.tv.TvQualifier
 import ec.solmedia.themoviedb.di.qualifier.tv.TypeTvQualifier
+import ec.solmedia.themoviedb.di.scope.ActivityScope
 import ec.solmedia.themoviedb.view.fragment.adapter.MediaPagerAdapter
-import javax.inject.Singleton
 
 @Module
 class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context) {
 
     @Provides
-    @Singleton
+    @ActivityScope
     @TvQualifier
     fun providesTvMediaPageAdapter(
             fm: FragmentManager,
@@ -33,7 +33,7 @@ class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     @MovieQualifier
     fun providesMovieMediaPageAdapter(
             fm: FragmentManager,
@@ -45,14 +45,14 @@ class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     @TypeTvQualifier
     fun providesTvMediaType(): String {
         return context.getString(R.string.tv_type)
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     @CategoriesTvQualifier
     fun providesTvCategories(): List<String> {
         return listOf(
@@ -64,7 +64,7 @@ class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     @TitlesTvQualifier
     fun providesTvTitles(): List<String> {
         return listOf(
@@ -76,20 +76,20 @@ class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     fun providesFragmentManager(): FragmentManager {
         return fragmentActivity.supportFragmentManager
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     @TypeMovieQualifier
     fun providesMovieMediaType(): String {
         return context.getString(R.string.movie_type)
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     @CategoriesMovieQualifier
     fun providesMovieCategories(): List<String> {
         return listOf(
@@ -101,7 +101,7 @@ class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context
     }
 
     @Provides
-    @Singleton
+    @ActivityScope
     @TitlesMovieQualifier
     fun providesMovieTitles(): List<String> {
         return listOf(

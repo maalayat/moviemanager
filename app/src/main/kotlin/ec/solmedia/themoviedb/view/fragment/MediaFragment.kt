@@ -30,7 +30,7 @@ class MediaFragment : RxBaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        TheMovieDBApp.mediaComponent.inject(this)
+        setupInjection()
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -44,7 +44,7 @@ class MediaFragment : RxBaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         setupRecyclerView()
-        initAdapter()
+        setupAdapter()
 
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_MEDIA)) {
             media = savedInstanceState.get(KEY_MEDIA) as Media
@@ -90,6 +90,10 @@ class MediaFragment : RxBaseFragment() {
         }
     }
 
+    private fun setupInjection() {
+        TheMovieDBApp.graph.plus().inject(this)
+    }
+
     private fun setupRecyclerView() {
         rvMedia.apply {
             setHasFixedSize(true)
@@ -100,7 +104,7 @@ class MediaFragment : RxBaseFragment() {
         }
     }
 
-    private fun initAdapter() {
+    private fun setupAdapter() {
         if (rvMedia.adapter == null) {
             rvMedia.adapter = adapter
         }

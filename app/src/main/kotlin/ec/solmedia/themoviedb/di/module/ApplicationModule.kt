@@ -1,4 +1,4 @@
-package ec.solmedia.themoviedb.di
+package ec.solmedia.themoviedb.di.module
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,7 +8,7 @@ import ec.solmedia.themoviedb.TheMovieDBApp
 import javax.inject.Singleton
 
 @Module
-class AppModule(val app: TheMovieDBApp) {
+class ApplicationModule(val app: TheMovieDBApp) {
 
     @Provides
     @Singleton

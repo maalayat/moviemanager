@@ -1,15 +1,17 @@
 package ec.solmedia.themoviedb
 
 import android.app.Application
-import android.support.v4.app.FragmentActivity
+import com.devs.acr.AutoErrorReporter
 import com.squareup.leakcanary.LeakCanary
-import ec.solmedia.themoviedb.di.*
+import ec.solmedia.themoviedb.di.component.ApplicationComponent
+import ec.solmedia.themoviedb.di.component.DaggerApplicationComponent
+import ec.solmedia.themoviedb.di.module.ApplicationModule
 
 
 class TheMovieDBApp : Application() {
 
     companion object {
-        lateinit var mediaComponent: MediaComponent
+        lateinit var graph: ApplicationComponent
 
         val BASE_URL = "https://api.themoviedb.org/3/"
         val BASE_IMAGE = "https://image.tmdb.org/t/p/"
@@ -23,7 +25,8 @@ class TheMovieDBApp : Application() {
         super.onCreate()
 
         setupLeakCanary()
-        initMediaComponent()
+        setupCrashReports()
+        setupDagger()
     }
 
     private fun setupLeakCanary() {
@@ -33,17 +36,17 @@ class TheMovieDBApp : Application() {
         LeakCanary.install(this)
     }
 
-    fun getMainComponent(fragmentActivity: FragmentActivity): MainComponent {
-        return DaggerMainComponent.builder()
-                .appModule(AppModule(this))
-                .adapterModule(AdapterModule(fragmentActivity, this))
-                .build()
+    private fun setupCrashReports() {
+        AutoErrorReporter.get(this)
+                .setEmailAddresses("alejo.ay@gmail.com")
+                .setEmailSubject("Reporte de errores The MovieDB Client")
+                .start()
     }
 
-    private fun initMediaComponent() {
-        mediaComponent = DaggerMediaComponent
+    fun setupDagger() {
+        graph = DaggerApplicationComponent
                 .builder()
-                .appModule(AppModule(this))
+                .applicationModule(ApplicationModule(this))
                 .build()
     }
 }

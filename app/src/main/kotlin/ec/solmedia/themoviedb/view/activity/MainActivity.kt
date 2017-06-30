@@ -11,6 +11,7 @@ import android.view.MenuItem
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.consume
+import ec.solmedia.themoviedb.di.module.AdapterModule
 import ec.solmedia.themoviedb.di.qualifier.movie.MovieQualifier
 import ec.solmedia.themoviedb.di.qualifier.tv.TvQualifier
 import ec.solmedia.themoviedb.view.fragment.adapter.MediaPagerAdapter
@@ -102,7 +103,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupInjection() {
-        (application as TheMovieDBApp).getMainComponent(this).inject(this)
+        TheMovieDBApp.graph.plus(AdapterModule(this, this)).inject(this)
     }
 
     private fun setupListeners() {
