@@ -1,8 +1,11 @@
 package ec.solmedia.themoviedb.view.fragment
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,22 +13,30 @@ import ec.solmedia.moviemanager.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.inflate
-import ec.solmedia.themoviedb.commons.extensions.snack
+import ec.solmedia.themoviedb.domain.RequestMediaCommand
 import ec.solmedia.themoviedb.model.Media
+import ec.solmedia.themoviedb.model.MediaItem
+import ec.solmedia.themoviedb.view.activity.MediaDetailActivity
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
-import ec.solmedia.themoviedb.view.feature.MediaManager
 import kotlinx.android.synthetic.main.fragment_media.*
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 
-class MediaFragment : RxBaseFragment() {
+class MediaFragment : Fragment() {
 
-    val adapter = MediaAdapter { navigateToMediaDetail(it) }
-    @Inject lateinit var mediaManager: MediaManager
+    @Inject lateinit var request: RequestMediaCommand
     private lateinit var category: String
     private lateinit var mediaType: String
+
+    private val adapter = MediaAdapter { navigateToMediaDetail(it) }
+    private var media: Media? = null
+
+    companion object {
+        val KEY_MEDIA = "media"
+        val KEY_TITLE = "title"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,47 +57,41 @@ class MediaFragment : RxBaseFragment() {
         setupRecyclerView()
         setupAdapter()
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_MEDIA)) {
-            media = savedInstanceState.get(KEY_MEDIA) as Media
-            adapter.clearAndAddMediaItems(media!!.mediaItems)
-        } else {
-            requestMovies()
-        }
-
         if (savedInstanceState != null && savedInstanceState.containsKey(KEY_TITLE)) {
             activity.title = savedInstanceState.get(KEY_TITLE) as CharSequence?
         }
+
+        //TODO fix saveInstance
+        requestMovies()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val items = adapter.getMediaItems()
-        if (media != null && items.isNotEmpty()) {
-            outState.putParcelable(KEY_MEDIA, media?.copy(mediaItems = items))
-        }
         outState.putString(KEY_TITLE, activity.title.toString())
 
         super.onSaveInstanceState(outState)
     }
 
     private fun requestMovies() {
-        val actualPage = media?.page ?: -1
-        val totalPage = media?.totalPages ?: 0
-        if (actualPage < totalPage) {
-            val subscription = mediaManager
-                    .get(mediaType, category, media?.page ?: 0)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            { retrieveMovies ->
-                                media = retrieveMovies
-                                adapter.addMediaItems(retrieveMovies.mediaItems)
-                            },
-                            { e -> view?.snack(e.localizedMessage) {} }
-                    )
+        val actualPage = media?.page ?: 0
+        val totalPage = media?.totalPages ?: actualPage + 1
+        Log.d("MediaFragment", "actualpage: $actualPage totalPage: $totalPage")
 
-            subscriptions.add(subscription)
-        } else {
-            adapter.removeLoadingItem()
+        doAsync {
+            if (actualPage < totalPage) {
+                val result = request.execute(mediaType, category, actualPage)
+                media = result
+                result?.let {
+                    //control null
+                    uiThread {
+                        adapter.addMediaItems(result.mediaItems)
+                    }
+                }
+            } else {
+                uiThread {
+                    adapter.removeLoadingItem()
+                    Log.d("MediaFragment ", "Remove Loading Item")
+                }
+            }
         }
     }
 
@@ -108,5 +113,13 @@ class MediaFragment : RxBaseFragment() {
         if (rvMedia.adapter == null) {
             rvMedia.adapter = adapter
         }
+    }
+
+    protected fun navigateToMediaDetail(mediaItem: MediaItem) {
+        val intent: Intent = Intent(context, MediaDetailActivity::class.java)
+        intent.putExtra(MediaDetailActivity.EXTRA_TITLE, mediaItem.title ?: mediaItem.name)
+        intent.putExtra(MediaDetailActivity.EXTRA_OVERVIEW, mediaItem.overView)
+        intent.putExtra(MediaDetailActivity.EXTRA_BACK_DROP, mediaItem.backDropPath)
+        startActivity(intent)
     }
 }

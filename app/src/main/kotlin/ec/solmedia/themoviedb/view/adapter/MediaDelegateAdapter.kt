@@ -12,20 +12,21 @@ import ec.solmedia.themoviedb.model.MediaItem
 import kotlinx.android.synthetic.main.item_media.view.*
 
 
-class MediaDelegateAdapter(val listener: (MediaItem) -> Unit) : ViewTypeDelegateAdapter {
+class MediaDelegateAdapter(val itemClick: (MediaItem) -> Unit) : ViewTypeDelegateAdapter {
+
     override fun onCreateViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        return MoviesViewHolder(parent)
+        return MediaViewHolder(parent, itemClick)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, item: ViewType) {
-        holder as MoviesViewHolder
-        holder.bind(item as MediaItem, listener)
+        holder as MediaViewHolder
+        holder.bind(item as MediaItem)
     }
 
-    class MoviesViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+    class MediaViewHolder(parent: ViewGroup, val itemClick: (MediaItem) -> Unit) : RecyclerView.ViewHolder(
             parent.inflate(R.layout.item_media)) {
 
-        fun bind(item: MediaItem, listener: (MediaItem) -> Unit) = with(itemView) {
+        fun bind(item: MediaItem) = with(itemView) {
             ivMediaImage.loadImg(
                     item.posterPath,
                     TheMovieDBApp.PATH_POSTER,
@@ -36,7 +37,7 @@ class MediaDelegateAdapter(val listener: (MediaItem) -> Unit) : ViewTypeDelegate
             tvOverView.text = item.overView
             tvVoteAverage.text = item.voteAverage.toString()
             tvVoteCount.text = item.voteCount.toString()
-            setOnClickListener { listener(item) }
+            setOnClickListener { itemClick(item) }
         }
     }
 

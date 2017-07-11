@@ -9,17 +9,17 @@ import ec.solmedia.themoviedb.commons.adapter.ViewTypeDelegateAdapter
 import ec.solmedia.themoviedb.model.MediaItem
 
 
-class MediaAdapter(listener: (MediaItem) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MediaAdapter(itemClick: (MediaItem) -> Unit) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var items: ArrayList<ViewType>
     private var delegateAdapters = SparseArrayCompat<ViewTypeDelegateAdapter>()
     private val loadingItem = object : ViewType {
-        override fun getViewType(): Int = AdapterConstants.LOADING
+        override fun getViewType() = AdapterConstants.LOADING
     }
 
     init {
         delegateAdapters.put(AdapterConstants.LOADING, LoadingDelegateAdapter())
-        delegateAdapters.put(AdapterConstants.MEDIA, MediaDelegateAdapter(listener))
+        delegateAdapters.put(AdapterConstants.MEDIA, MediaDelegateAdapter(itemClick))
         items = ArrayList()
         items.add(loadingItem)
     }
@@ -29,7 +29,7 @@ class MediaAdapter(listener: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycle
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items.get(position))
+        delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
     }
 
     override fun getItemCount(): Int {
@@ -37,18 +37,16 @@ class MediaAdapter(listener: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycle
     }
 
     override fun getItemViewType(position: Int): Int {
-        return this.items.get(position).getViewType()
+        return this.items[position].getViewType()
     }
 
     fun addMediaItems(mediaItems: List<MediaItem>) {
-        val initPosition = items.size - 1
-        items.removeAt(initPosition)
-        notifyItemRemoved(initPosition)
+        removeLoadingItem()
 
         // insert news and the loading at the end of the list
         items.addAll(mediaItems)
         items.add(loadingItem)
-        notifyItemRangeChanged(initPosition, items.size + 1 /* plus loading item */)
+        notifyItemRangeChanged(items.size - 1, items.size + 1 /* plus loading item */)
     }
 
     fun clearAndAddMediaItems(mediaItems: List<MediaItem>) {
@@ -61,7 +59,9 @@ class MediaAdapter(listener: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycle
     }
 
     fun removeLoadingItem() {
-        items.remove(loadingItem)
+        val initPosition = items.size - 1
+        items.removeAt(initPosition)
+        notifyItemRemoved(initPosition)
     }
 
     private fun getLastPosition() = if (items.lastIndex == -1) 0 else items.lastIndex
