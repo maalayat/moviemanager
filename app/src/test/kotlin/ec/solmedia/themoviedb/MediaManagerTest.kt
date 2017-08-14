@@ -54,12 +54,13 @@ class MediaManagerTest {
     fun testSuccess_checkOneMedia() {
         //prepare
         val mediaData = TheMovieDBDataResponse(
-                "id",
+                5,
                 "title",
                 "name",
                 "overview",
                 "first",
                 "relase",
+                emptyArray(),
                 "otitle",
                 "oname",
                 "olang",

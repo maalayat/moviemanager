@@ -3,6 +3,7 @@
 package ec.solmedia.themoviedb.commons.extensions
 
 import android.content.Context
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.LayoutRes
@@ -59,6 +60,12 @@ inline fun View.snack(message: String, length: Int = Snackbar.LENGTH_LONG, f: Sn
 fun Snackbar.action(action: String, color: Int? = null, listener: (View) -> Unit) {
     setAction(action, listener)
     color?.let { setActionTextColor(color) }
+}
+
+inline fun supportsVersion(ver: Int, func: () -> Unit) {
+    if(Build.VERSION.SDK_INT >= ver) {
+        func.invoke()
+    }
 }
 
 inline fun <reified T : Parcelable> createParcel(

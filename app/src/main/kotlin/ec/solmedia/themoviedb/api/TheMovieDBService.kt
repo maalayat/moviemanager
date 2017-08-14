@@ -14,4 +14,10 @@ interface TheMovieDBService {
             @Query("page") page: Int,
             @Query("language") language: String = "en-US"): Call<TheMovieDBResponse>
 
+    @GET("{media}/{mediaId}")
+    fun detail(
+            @Path("media") media: String,
+            @Path("mediaId") mediaId: Int,
+            @Query("api_key") apiKey: String,
+            @Query("language") language: String = "en-US"): Call<TheMovieDBDataResponse>
 }

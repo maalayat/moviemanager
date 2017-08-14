@@ -120,6 +120,13 @@ class MediaFragment : Fragment() {
         intent.putExtra(MediaDetailActivity.EXTRA_TITLE, mediaItem.title ?: mediaItem.name)
         intent.putExtra(MediaDetailActivity.EXTRA_OVERVIEW, mediaItem.overView)
         intent.putExtra(MediaDetailActivity.EXTRA_BACK_DROP, mediaItem.backDropPath)
+        intent.putExtra(MediaDetailActivity.EXTRA_POSTER, mediaItem.posterPath)
+        intent.putExtra(MediaDetailActivity.EXTRA_VOTE_AVERAGE, mediaItem.voteAverage)
+        intent.putExtra(MediaDetailActivity.EXTRA_VOTE_COUNT, mediaItem.voteCount)
+        intent.putExtra(MediaDetailActivity.EXTRA_RELEASE_DATE, mediaItem.releaseDate ?: mediaItem.firstAirDate)
+        intent.putExtra(MediaDetailActivity.EXTRA_ORIGINAL_NAME, mediaItem.originalTitle ?: mediaItem.originalName)
+        intent.putExtra(MediaDetailActivity.EXTRA_POPULARITY, mediaItem.popularity)
+
         startActivity(intent)
     }
 }

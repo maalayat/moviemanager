@@ -19,6 +19,7 @@ class MediaDataMapper {
                     it.overview,
                     it.first_air_date,
                     it.release_date,
+                    it.genre_ids,
                     it.original_title,
                     it.original_name,
                     it.original_language,

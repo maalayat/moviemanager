@@ -10,4 +10,8 @@ class TheMovieDBRestAPI @Inject constructor(private val service: TheMovieDBServi
         return service.get(media, category, BuildConfig.TMDB_API_KEY, page, locale)
     }
 
+    override fun detail(mediaType: String, mediaId: Int, locale: String): Call<TheMovieDBDataResponse> {
+        return service.detail(mediaType, mediaId, BuildConfig.TMDB_API_KEY, locale)
+    }
+
 }

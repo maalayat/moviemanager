@@ -56,7 +56,7 @@
             tools:text="2017-06-25" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/ivDetReleaseDate"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_below="@+id/tvTitle"

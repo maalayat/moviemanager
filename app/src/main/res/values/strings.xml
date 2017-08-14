@@ -39,4 +39,8 @@
     <string name="msg_img_desc_release_date">Release Date</string>
     <string name="msg_img_desc_poster_img">Poster image</string>
     <string name="msg_img_desc_back_drop">Back drop Image</string>
+    <string name="msg_img_desc_popularity">Popularity Image</string>
+
+    <string name="det_title_overview">Overview</string>
+    <string name="det_original_name">Original name:</string>
 </resources>

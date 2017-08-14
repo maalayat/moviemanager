@@ -1,8 +1,11 @@
 package ec.solmedia.themoviedb.view.activity
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.View
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.consume
@@ -17,6 +20,12 @@ class MediaDetailActivity : AppCompatActivity() {
         val EXTRA_TITLE = "MediaDetailActivity:title"
         val EXTRA_OVERVIEW = "MediaDetailActivity:overview"
         val EXTRA_BACK_DROP = "MediaDetailActivity:backdrop"
+        val EXTRA_POSTER = "MediaDetailActivity:poster"
+        val EXTRA_VOTE_AVERAGE = "MediaDetailActivity:voteAverage"
+        val EXTRA_VOTE_COUNT = "MediaDetailActivity:voteCount"
+        val EXTRA_RELEASE_DATE = "MediaDetailActivity:realeaseDate"
+        val EXTRA_ORIGINAL_NAME = "MediaDetailActivity:originalName"
+        val EXTRA_POPULARITY = "MediaDetailActivity:popularity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,16 +50,33 @@ class MediaDetailActivity : AppCompatActivity() {
     }
 
     private fun setupActionBar() {
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.decorView.systemUiVisibility =
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            window.statusBarColor = Color.TRANSPARENT
+        }
     }
 
     private fun setupView() = with(intent.extras) {
-        title = getString(EXTRA_TITLE)
-        tvOverView.text = getString(EXTRA_OVERVIEW)
-        ivMediaBackdrop.loadImg(
+        title = ""
+        tvDetTitle.text = getString(EXTRA_TITLE)
+        tvDetOverview.text = getString(EXTRA_OVERVIEW)
+        ivDetBackdrop.loadImg(
                 getString(EXTRA_BACK_DROP),
                 TheMovieDBApp.PATH_BACKDROP,
                 resources.getDimensionPixelSize(R.dimen.backDrop_width),
                 resources.getDimensionPixelSize(R.dimen.backDrop_height))
+        ivDetPoster.loadImg(
+                getString(EXTRA_POSTER),
+                TheMovieDBApp.PATH_POSTER,
+                resources.getDimensionPixelSize(R.dimen.poster_width),
+                resources.getDimensionPixelSize(R.dimen.poster_height))
+        tvDetVoteCount.text = get(EXTRA_VOTE_COUNT).toString()
+        tvDetVoteAverage.text = get(EXTRA_VOTE_AVERAGE).toString()
+        tvDetReleaseDate.text = get(EXTRA_RELEASE_DATE).toString()
+        tvDetOriginalName.text = getString(EXTRA_ORIGINAL_NAME)
+        tvDetPopularity.text = get(EXTRA_POPULARITY).toString()
     }
 }

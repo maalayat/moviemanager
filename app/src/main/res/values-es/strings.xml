@@ -22,5 +22,8 @@
     <string name="msg_img_desc_release_date">Fecha de lanzamiento</string>
     <string name="msg_img_desc_poster_img">Imagen de poster</string>
     <string name="msg_img_desc_back_drop">Imagen de fondo</string>
+    <string name="det_title_overview">Resumen</string>
+    <string name="det_original_name">Nombre original:</string>
+    <string name="msg_img_desc_popularity">Imagen de popularidad</string>
 
 </resources>
