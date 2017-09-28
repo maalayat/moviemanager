@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +13,10 @@ import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.inflate
 import ec.solmedia.themoviedb.domain.RequestMediaCommand
-import ec.solmedia.themoviedb.model.Media
 import ec.solmedia.themoviedb.model.MediaItem
 import ec.solmedia.themoviedb.view.activity.MediaDetailActivity
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
 import kotlinx.android.synthetic.main.fragment_media.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 
@@ -31,7 +27,6 @@ class MediaFragment : Fragment() {
     private lateinit var mediaType: String
 
     private val adapter = MediaAdapter { navigateToMediaDetail(it) }
-    private var media: Media? = null
 
     companion object {
         val KEY_MEDIA = "media"
@@ -72,26 +67,8 @@ class MediaFragment : Fragment() {
     }
 
     private fun requestMovies() {
-        val actualPage = media?.page ?: 0
-        val totalPage = media?.totalPages ?: actualPage + 1
-        Log.d("MediaFragment", "actualpage: $actualPage totalPage: $totalPage")
-
-        doAsync {
-            if (actualPage < totalPage) {
-                val result = request.execute(mediaType, category, actualPage)
-                media = result
-                result?.let {
-                    //control null
-                    uiThread {
-                        adapter.addMediaItems(result.mediaItems)
-                    }
-                }
-            } else {
-                uiThread {
-                    adapter.removeLoadingItem()
-                    Log.d("MediaFragment ", "Remove Loading Item")
-                }
-            }
+        request.execute(mediaType, category) {
+            adapter.addMediaItems(it.mediaItems)
         }
     }
 
@@ -116,7 +93,7 @@ class MediaFragment : Fragment() {
     }
 
     protected fun navigateToMediaDetail(mediaItem: MediaItem) {
-        val intent: Intent = Intent(context, MediaDetailActivity::class.java)
+        val intent = Intent(context, MediaDetailActivity::class.java)
         intent.putExtra(MediaDetailActivity.EXTRA_TITLE, mediaItem.title ?: mediaItem.name)
         intent.putExtra(MediaDetailActivity.EXTRA_OVERVIEW, mediaItem.overView)
         intent.putExtra(MediaDetailActivity.EXTRA_BACK_DROP, mediaItem.backDropPath)

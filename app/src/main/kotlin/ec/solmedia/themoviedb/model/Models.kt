@@ -4,10 +4,10 @@ import ec.solmedia.themoviedb.commons.adapter.AdapterConstants
 import ec.solmedia.themoviedb.commons.adapter.ViewType
 
 data class Media(
-        val page: Int,
-        val totalResults: Int,
-        val totalPages: Int,
-        val mediaItems: List<MediaItem>)
+        val page: Int = 0,
+        val totalResults: Int = 0,
+        val totalPages: Int = 1,
+        val mediaItems: List<MediaItem> = emptyList())
 
 data class MediaItem(val id: Int,
                      val title: String?,
