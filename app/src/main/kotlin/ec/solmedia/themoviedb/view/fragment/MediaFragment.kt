@@ -8,7 +8,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ec.solmedia.moviemanager.commons.InfiniteScrollListener
+import ec.solmedia.themoviedb.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.TheMovieDBApp
 import ec.solmedia.themoviedb.commons.extensions.inflate
@@ -82,7 +82,9 @@ class MediaFragment : Fragment() {
             val linearLayout = LinearLayoutManager(context)
             layoutManager = linearLayout
             clearOnScrollListeners()
-            addOnScrollListener(InfiniteScrollListener({ requestMovies() }, linearLayout))
+            addOnScrollListener(InfiniteScrollListener(linearLayout) {
+                requestMovies()
+            })
         }
     }
 
