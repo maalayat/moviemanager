@@ -49,6 +49,7 @@ dependencies {
 
     // Anko
     compile "org.jetbrains.anko:anko-common:$anko_version"
+    compile "org.jetbrains.anko:anko-sqlite:$anko_version"
 
     // Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
