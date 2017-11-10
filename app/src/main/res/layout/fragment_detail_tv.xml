@@ -1,0 +1,181 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetOverview"
+        app:layout_constraintVertical_bias="0.5">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/lblDetStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/det_status"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivDetTvPoster"
+                app:layout_constraintTop_toBottomOf="@+id/lblDetNumberOfSeasons" />
+
+            <TextView
+                android:id="@+id/tvDetTvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/lblDetStatus"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetNumberOfSeasons"
+                tools:text="In progress" />
+
+            <ImageView
+                android:id="@+id/ivDetTvPoster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
+                android:contentDescription="@string/msg_img_desc_poster_img"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_movie" />
+
+            <TextView
+                android:id="@+id/lblDetFirstAirDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/det_first_air_date"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivDetTvPoster"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvDetFirstAirDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/lblDetFirstAirDate"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2015-11-25" />
+
+            <TextView
+                android:id="@+id/lblDetVoteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/det_vote_count"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivDetTvPoster"
+                app:layout_constraintTop_toBottomOf="@+id/lblDetStatus" />
+
+            <TextView
+                android:id="@+id/tvDetTvVoteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/lblDetVoteCount"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetTvStatus"
+                tools:text="1224" />
+
+            <TextView
+                android:id="@+id/tvDetLastAirDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/lblDetLastAirDate"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetFirstAirDate"
+                tools:text="1996-01-01" />
+
+            <TextView
+                android:id="@+id/lblDetLastAirDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/det_last_air_date"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivDetTvPoster"
+                app:layout_constraintTop_toBottomOf="@+id/lblDetFirstAirDate" />
+
+            <TextView
+                android:id="@+id/lblDetNumberOfEpisodes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/det_number_of_episodes"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivDetTvPoster"
+                app:layout_constraintTop_toBottomOf="@+id/lblDetLastAirDate" />
+
+            <TextView
+                android:id="@+id/lblDetNumberOfSeasons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/det_number_of_seasons"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivDetTvPoster"
+                app:layout_constraintTop_toBottomOf="@+id/lblDetNumberOfEpisodes" />
+
+            <TextView
+                android:id="@+id/tvDetNumberOfSeasons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/lblDetNumberOfSeasons"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetNumberOfEpisodes"
+                tools:text="4" />
+
+            <TextView
+                android:id="@+id/tvDetNumberOfEpisodes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/lblDetNumberOfEpisodes"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetLastAirDate"
+                tools:text="168" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

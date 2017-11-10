@@ -8,9 +8,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ec.solmedia.themoviedb.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.R
-import ec.solmedia.themoviedb.TheMovieDBApp
+import ec.solmedia.themoviedb.VimoApp
+import ec.solmedia.themoviedb.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.commons.extensions.inflate
 import ec.solmedia.themoviedb.domain.RequestMediaCommand
 import ec.solmedia.themoviedb.model.MediaItem
@@ -29,7 +29,6 @@ class MediaFragment : Fragment() {
     private val adapter = MediaAdapter { navigateToMediaDetail(it) }
 
     companion object {
-        val KEY_MEDIA = "media"
         val KEY_TITLE = "title"
     }
 
@@ -57,7 +56,7 @@ class MediaFragment : Fragment() {
         }
 
         //TODO fix saveInstance
-        requestMovies()
+        requestMedia()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -66,14 +65,14 @@ class MediaFragment : Fragment() {
         super.onSaveInstanceState(outState)
     }
 
-    private fun requestMovies() {
+    private fun requestMedia() {
         request.execute(mediaType, category) {
             adapter.addMediaItems(it.mediaItems)
         }
     }
 
     private fun setupInjection() {
-        TheMovieDBApp.graph.plus().inject(this)
+        VimoApp.graph.plus().inject(this)
     }
 
     private fun setupRecyclerView() {
@@ -83,7 +82,7 @@ class MediaFragment : Fragment() {
             layoutManager = linearLayout
             clearOnScrollListeners()
             addOnScrollListener(InfiniteScrollListener(linearLayout) {
-                requestMovies()
+                requestMedia()
             })
         }
     }
@@ -94,17 +93,11 @@ class MediaFragment : Fragment() {
         }
     }
 
-    protected fun navigateToMediaDetail(mediaItem: MediaItem) {
+    private fun navigateToMediaDetail(mediaItem: MediaItem) {
         val intent = Intent(context, MediaDetailActivity::class.java)
-        intent.putExtra(MediaDetailActivity.EXTRA_TITLE, mediaItem.title ?: mediaItem.name)
-        intent.putExtra(MediaDetailActivity.EXTRA_OVERVIEW, mediaItem.overView)
-        intent.putExtra(MediaDetailActivity.EXTRA_BACK_DROP, mediaItem.backDropPath)
-        intent.putExtra(MediaDetailActivity.EXTRA_POSTER, mediaItem.posterPath)
-        intent.putExtra(MediaDetailActivity.EXTRA_VOTE_AVERAGE, mediaItem.voteAverage)
-        intent.putExtra(MediaDetailActivity.EXTRA_VOTE_COUNT, mediaItem.voteCount)
-        intent.putExtra(MediaDetailActivity.EXTRA_RELEASE_DATE, mediaItem.releaseDate ?: mediaItem.firstAirDate)
-        intent.putExtra(MediaDetailActivity.EXTRA_ORIGINAL_NAME, mediaItem.originalTitle ?: mediaItem.originalName)
-        intent.putExtra(MediaDetailActivity.EXTRA_POPULARITY, mediaItem.popularity)
+        intent.putExtra(MediaDetailActivity.EXTRA_ID, mediaItem.id)
+        intent.putExtra(MediaDetailActivity.EXTRA_MEDIA_TYPE, mediaType)
+        intent.putExtra(MediaDetailActivity.EXTRA_CATEGORY, category)
 
         startActivity(intent)
     }

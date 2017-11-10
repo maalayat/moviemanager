@@ -11,4 +11,5 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun plus(module: AdapterModule): AdapterComponent
     fun plus(): FragmentComponent
+    fun plusDetail(): DetailActivityComponent
 }

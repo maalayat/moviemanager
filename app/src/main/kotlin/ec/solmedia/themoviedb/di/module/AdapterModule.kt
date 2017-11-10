@@ -18,7 +18,7 @@ import ec.solmedia.themoviedb.di.scope.ActivityScope
 import ec.solmedia.themoviedb.view.fragment.adapter.MediaPagerAdapter
 
 @Module
-class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context) {
+class AdapterModule(private val fragmentActivity: FragmentActivity, val context: Context) {
 
     @Provides
     @ActivityScope
@@ -28,9 +28,7 @@ class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context
             @TypeTvQualifier mediaType: String,
             @CategoriesTvQualifier categories: List<String>,
             @TitlesTvQualifier titles: List<String>
-    ): MediaPagerAdapter {
-        return MediaPagerAdapter(fm, mediaType, categories, titles)
-    }
+    ) = MediaPagerAdapter(fm, mediaType, categories, titles)
 
     @Provides
     @ActivityScope
@@ -40,16 +38,12 @@ class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context
             @TypeMovieQualifier mediaType: String,
             @CategoriesMovieQualifier categories: List<String>,
             @TitlesMovieQualifier titles: List<String>
-    ): MediaPagerAdapter {
-        return MediaPagerAdapter(fm, mediaType, categories, titles)
-    }
+    ) = MediaPagerAdapter(fm, mediaType, categories, titles)
 
     @Provides
     @ActivityScope
     @TypeTvQualifier
-    fun providesTvMediaType(): String {
-        return context.getString(R.string.tv_type)
-    }
+    fun providesTvMediaType() = context.getString(R.string.tv_type)
 
     @Provides
     @ActivityScope
@@ -77,16 +71,12 @@ class AdapterModule(val fragmentActivity: FragmentActivity, val context: Context
 
     @Provides
     @ActivityScope
-    fun providesFragmentManager(): FragmentManager {
-        return fragmentActivity.supportFragmentManager
-    }
+    fun providesFragmentManager() = fragmentActivity.supportFragmentManager
 
     @Provides
     @ActivityScope
     @TypeMovieQualifier
-    fun providesMovieMediaType(): String {
-        return context.getString(R.string.movie_type)
-    }
+    fun providesMovieMediaType() = context.getString(R.string.movie_type)
 
     @Provides
     @ActivityScope

@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface TheMovieDBService {
+interface VimoService {
 
     @GET("{media}/{category}")
     fun get(@Path("media") media: String,
@@ -19,5 +19,5 @@ interface TheMovieDBService {
             @Path("media") media: String,
             @Path("mediaId") mediaId: Int,
             @Query("api_key") apiKey: String,
-            @Query("language") language: String = "en-US"): Call<TheMovieDBDataResponse>
+            @Query("language") language: String = "en-US"): Call<DetailItemResponse>
 }

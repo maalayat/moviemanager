@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import ec.solmedia.themoviedb.TheMovieDBApp
+import ec.solmedia.themoviedb.VimoApp
+import ec.solmedia.themoviedb.db.MediaItemSql
+import ec.solmedia.themoviedb.db.VimoDbHelper
+import ec.solmedia.themoviedb.domain.DataMapper
 import javax.inject.Singleton
 
 @Module
-class ApplicationModule(val app: TheMovieDBApp) {
+class ApplicationModule(val app: VimoApp) {
 
     @Provides
     @Singleton
@@ -16,11 +19,22 @@ class ApplicationModule(val app: TheMovieDBApp) {
 
     @Provides
     @Singleton
-    fun providesApplication(): TheMovieDBApp = app
+    fun providesApplication(): VimoApp = app
 
     @Provides
     @Singleton
-    fun providesSharedPreferences(): SharedPreferences {
-        return app.getSharedPreferences(TheMovieDBApp.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
-    }
+    fun providesSharedPreferences(): SharedPreferences =
+            app.getSharedPreferences(VimoApp.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+
+    @Provides
+    @Singleton
+    fun providesDataMapper(): DataMapper = DataMapper()
+
+    @Provides
+    @Singleton
+    fun providesVimoDbHelper(context: Context): VimoDbHelper = VimoDbHelper(context)
+
+    @Provides
+    @Singleton
+    fun providesMediaItemSql(vimoDbHelper: VimoDbHelper): MediaItemSql = MediaItemSql(vimoDbHelper)
 }

@@ -2,10 +2,10 @@ package ec.solmedia.themoviedb.di.module
 
 import dagger.Module
 import dagger.Provides
-import ec.solmedia.themoviedb.TheMovieDBApp
-import ec.solmedia.themoviedb.api.TheMovieDBAPI
-import ec.solmedia.themoviedb.api.TheMovieDBRestAPI
-import ec.solmedia.themoviedb.api.TheMovieDBService
+import ec.solmedia.themoviedb.VimoApp
+import ec.solmedia.themoviedb.api.VimoAPI
+import ec.solmedia.themoviedb.api.VimoRestAPI
+import ec.solmedia.themoviedb.api.VimoService
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -15,21 +15,18 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMediaRestAPI(theMovieDBService: TheMovieDBService): TheMovieDBAPI {
-        return TheMovieDBRestAPI(theMovieDBService)
-    }
+    fun provideVimoRestAPI(vimoService: VimoService): VimoAPI = VimoRestAPI(vimoService)
 
     @Provides
     @Singleton
-    fun provideService(retrofit: Retrofit): TheMovieDBService {
-        return retrofit.create(TheMovieDBService::class.java)
-    }
+    fun provideVimoService(retrofit: Retrofit) =
+            retrofit.create(VimoService::class.java)
 
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(TheMovieDBApp.BASE_URL)
+                .baseUrl(VimoApp.BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
     }

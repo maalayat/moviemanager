@@ -2,16 +2,20 @@ package ec.solmedia.themoviedb.domain
 
 import android.content.SharedPreferences
 import android.util.Log
-import ec.solmedia.themoviedb.TheMovieDBApp
-import ec.solmedia.themoviedb.api.TheMovieDBAPI
+import ec.solmedia.themoviedb.VimoApp
+import ec.solmedia.themoviedb.api.VimoAPI
+import ec.solmedia.themoviedb.db.MediaItemSql
 import ec.solmedia.themoviedb.model.Media
+import ec.solmedia.themoviedb.model.MediaItem
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import javax.inject.Inject
 
 class RequestMediaCommand @Inject constructor(
-        private val api: TheMovieDBAPI,
-        private val sPref: SharedPreferences) : Command<Media> {
+        private val api: VimoAPI,
+        private val sPref: SharedPreferences,
+        private val dataMapper: DataMapper,
+        private val mediaItemSql: MediaItemSql) : Command<Media> {
 
     private var media = Media()
 
@@ -20,14 +24,14 @@ class RequestMediaCommand @Inject constructor(
         doAsync {
             if (media.page < media.totalPages) {
                 val callResponse = api.get(mediaType, category, media.page + 1,
-                        sPref.getString(TheMovieDBApp.LOCALE_KEY, "en-US")
+                        sPref.getString(VimoApp.LOCALE_KEY, "en-US")
                 )
                 val response = callResponse.execute()
 
                 uiThread {
                     if (response.isSuccessful) {
                         val mediaResponse = response.body()
-                        val mediaConverted = MediaDataMapper().convertFromApiModel(mediaResponse)
+                        val mediaConverted = dataMapper.convertFromApiModel(mediaResponse)
                         media = mediaConverted
                         func(mediaConverted)
                     }
@@ -35,4 +39,15 @@ class RequestMediaCommand @Inject constructor(
             }
         }
     }
+
+    override fun save(mediaItem: MediaItem) {
+        val mediaItemEntity = dataMapper.convertDomainToDataBase(mediaItem)
+        mediaItemSql.saveMediaItem(mediaItemEntity)
+    }
+
+    override fun delete(mediaItem: MediaItem) {
+        mediaItemSql.deleteMediaItem(mediaItem.id)
+    }
+
+    override fun isFavorite(id: Int) = mediaItemSql.isFavorite(id)
 }

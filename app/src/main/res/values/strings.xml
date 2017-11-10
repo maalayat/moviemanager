@@ -42,5 +42,19 @@
     <string name="msg_img_desc_popularity">Popularity Image</string>
 
     <string name="det_title_overview">Overview</string>
-    <string name="det_original_name">Original name:</string>
+    <string name="det_first_air_date">First air date: </string>
+    <string name="det_last_air_date">Last air date: </string>
+    <string name="det_number_of_episodes">Number of episodes: </string>
+    <string name="det_number_of_seasons">Number of seasons: </string>
+    <string name="det_release_date">Release date: </string>
+    <string name="det_revenue">Revenue: </string>
+    <string name="det_runtime">Runtime: </string>
+    <string name="det_budget">Budget: </string>
+    <string name="det_tagline">Tagline: </string>
+    <string name="det_status">Status: </string>
+    <string name="det_imbd">Imdb: </string>
+    <string name="det_popularity">Popularity: </string>
+    <string name="det_vote_count">Vote count: </string>
+    <string name="msg_detail_activity_un_save_favorite">Media unsaved as favorite</string>
+    <string name="msg_detail_activity_save_favorite">Media saved as favorite</string>
 </resources>

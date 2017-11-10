@@ -8,7 +8,7 @@ import ec.solmedia.themoviedb.di.component.DaggerApplicationComponent
 import ec.solmedia.themoviedb.di.module.ApplicationModule
 
 
-class TheMovieDBApp : Application() {
+class VimoApp : Application() {
 
     companion object {
         lateinit var graph: ApplicationComponent
@@ -25,7 +25,7 @@ class TheMovieDBApp : Application() {
         super.onCreate()
 
         setupLeakCanary()
-        setupCrashReports()
+//        setupCrashReports()
         setupDagger()
     }
 
@@ -39,11 +39,11 @@ class TheMovieDBApp : Application() {
     private fun setupCrashReports() {
         AutoErrorReporter.get(this)
                 .setEmailAddresses("alejo.ay@gmail.com")
-                .setEmailSubject("Reporte de errores The MovieDB Client")
+                .setEmailSubject("VimoApp Crash Report")
                 .start()
     }
 
-    fun setupDagger() {
+    private fun setupDagger() {
         graph = DaggerApplicationComponent
                 .builder()
                 .applicationModule(ApplicationModule(this))

@@ -17,7 +17,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.squareup.picasso.Picasso
 import ec.solmedia.themoviedb.R
-import ec.solmedia.themoviedb.TheMovieDBApp
+import ec.solmedia.themoviedb.VimoApp
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachRoot: Boolean = false): View {
     return LayoutInflater.from(context).inflate(layoutRes, this, attachRoot)
@@ -30,7 +30,7 @@ fun ImageView.loadImg(imageUrl: String, imagePath: String, width: Int, height: I
                 .into(this)
     } else {
         Picasso.with(context)
-                .load(TheMovieDBApp.BASE_IMAGE+"$imagePath$imageUrl")
+                .load(VimoApp.BASE_IMAGE + "$imagePath$imageUrl")
                 .resize(width, height)
                 .into(this)
     }
@@ -63,7 +63,7 @@ fun Snackbar.action(action: String, color: Int? = null, listener: (View) -> Unit
 }
 
 inline fun supportsVersion(ver: Int, func: () -> Unit) {
-    if(Build.VERSION.SDK_INT >= ver) {
+    if (Build.VERSION.SDK_INT >= ver) {
         func.invoke()
     }
 }

@@ -8,8 +8,9 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import ec.solmedia.themoviedb.R
-import ec.solmedia.themoviedb.TheMovieDBApp
+import ec.solmedia.themoviedb.VimoApp
 import ec.solmedia.themoviedb.commons.extensions.consume
 import ec.solmedia.themoviedb.di.module.AdapterModule
 import ec.solmedia.themoviedb.di.qualifier.movie.MovieQualifier
@@ -23,14 +24,16 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit private var drawerToggle: ActionBarDrawerToggle
     @Inject
     lateinit var sharedPreferences: SharedPreferences
+
     @field:[Inject TvQualifier]
     lateinit var tvAdapter: MediaPagerAdapter
-    @field:[Inject MovieQualifier]
-    lateinit var movieAdater: MediaPagerAdapter
 
+    @field:[Inject MovieQualifier]
+    lateinit var movieAdapter: MediaPagerAdapter
+
+    lateinit private var drawerToggle: ActionBarDrawerToggle
     private var menuItemId: Int = 0
 
     companion object {
@@ -71,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewPagerMovies() {
-        viewPager.adapter = movieAdater
+        viewPager.adapter = movieAdapter
         tabs.setupWithViewPager(viewPager)
     }
 
@@ -86,7 +89,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun selectItem(item: MenuItem) {
-        title = item.title
         menuItemId = item.itemId
         when (item.itemId) {
             R.id.nav_tvshows -> drawer_layout.consume {
@@ -103,12 +105,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupInjection() {
-        TheMovieDBApp.graph.plus(AdapterModule(this, this)).inject(this)
+        VimoApp.graph.plus(AdapterModule(this, this)).inject(this)
     }
 
     private fun setupListeners() {
         nav_view.setNavigationItemSelectedListener({
             selectItem(it)
+            title = it.title
             true
         })
     }
@@ -121,8 +124,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSharedPreferences() {
-        if (!sharedPreferences.contains(TheMovieDBApp.LOCALE_KEY)) {
-            sharedPreferences.edit().putString(TheMovieDBApp.LOCALE_KEY, Locale.getDefault().language).apply()
+        if (!sharedPreferences.contains(VimoApp.LOCALE_KEY)) {
+            sharedPreferences.edit().putString(VimoApp.LOCALE_KEY, Locale.getDefault().language).apply()
         }
     }
 

@@ -7,25 +7,27 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import ec.solmedia.themoviedb.R
-import ec.solmedia.themoviedb.TheMovieDBApp
+import ec.solmedia.themoviedb.VimoApp
 import ec.solmedia.themoviedb.commons.extensions.consume
 import ec.solmedia.themoviedb.commons.extensions.loadImg
 import ec.solmedia.themoviedb.commons.extensions.snack
+import ec.solmedia.themoviedb.domain.RequestDetailMediaCommand
+import ec.solmedia.themoviedb.model.DetailMediaItem
+import ec.solmedia.themoviedb.view.fragment.FragmentDetailMovie
+import ec.solmedia.themoviedb.view.fragment.FragmentDetailTv
 import kotlinx.android.synthetic.main.activity_media_detail.*
 import kotlinx.android.synthetic.main.content_media_detail.*
+import javax.inject.Inject
 
 class MediaDetailActivity : AppCompatActivity() {
 
+    @Inject lateinit var request: RequestDetailMediaCommand
+    private lateinit var detailMediaItem: DetailMediaItem
+
     companion object {
-        val EXTRA_TITLE = "MediaDetailActivity:title"
-        val EXTRA_OVERVIEW = "MediaDetailActivity:overview"
-        val EXTRA_BACK_DROP = "MediaDetailActivity:backdrop"
-        val EXTRA_POSTER = "MediaDetailActivity:poster"
-        val EXTRA_VOTE_AVERAGE = "MediaDetailActivity:voteAverage"
-        val EXTRA_VOTE_COUNT = "MediaDetailActivity:voteCount"
-        val EXTRA_RELEASE_DATE = "MediaDetailActivity:realeaseDate"
-        val EXTRA_ORIGINAL_NAME = "MediaDetailActivity:originalName"
-        val EXTRA_POPULARITY = "MediaDetailActivity:popularity"
+        val EXTRA_ID = "MediaDetailActivity:id"
+        val EXTRA_MEDIA_TYPE = "MediaDetailActivity:mediaType"
+        val EXTRA_CATEGORY = "MediaDetailActivity:category"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +35,7 @@ class MediaDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_media_detail)
         setSupportActionBar(toolbarDetail)
 
-        setupListener()
+        setupInjection()
         setupActionBar()
         setupView()
     }
@@ -43,14 +45,31 @@ class MediaDetailActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        val fragmentManager = supportFragmentManager
+        if (fragmentManager.backStackEntryCount > 1) {
+            fragmentManager.popBackStack()
+        } else {
+            finish()
+        }
+    }
+
     private fun setupListener() {
-        fab.setOnClickListener { view ->
-            view.snack("Media saved as favorite") {}
+        fab.setOnClickListener {
+            if (detailMediaItem.isFavorite) {
+                request.delete(detailMediaItem.id)
+                it.snack(getString(R.string.msg_detail_activity_un_save_favorite)) {}
+            } else {
+                request.save(detailMediaItem)
+                it.snack(getString(R.string.msg_detail_activity_save_favorite)) {}
+            }
+            setupFab()
         }
     }
 
     private fun setupActionBar() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.decorView.systemUiVisibility =
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
@@ -59,24 +78,57 @@ class MediaDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupView() = with(intent.extras) {
-        title = ""
-        tvDetTitle.text = getString(EXTRA_TITLE)
-        tvDetOverview.text = getString(EXTRA_OVERVIEW)
-        ivDetBackdrop.loadImg(
-                getString(EXTRA_BACK_DROP),
-                TheMovieDBApp.PATH_BACKDROP,
-                resources.getDimensionPixelSize(R.dimen.backDrop_width),
-                resources.getDimensionPixelSize(R.dimen.backDrop_height))
-        ivDetPoster.loadImg(
-                getString(EXTRA_POSTER),
-                TheMovieDBApp.PATH_POSTER,
-                resources.getDimensionPixelSize(R.dimen.poster_width),
-                resources.getDimensionPixelSize(R.dimen.poster_height))
-        tvDetVoteCount.text = get(EXTRA_VOTE_COUNT).toString()
-        tvDetVoteAverage.text = get(EXTRA_VOTE_AVERAGE).toString()
-        tvDetReleaseDate.text = get(EXTRA_RELEASE_DATE).toString()
-        tvDetOriginalName.text = getString(EXTRA_ORIGINAL_NAME)
-        tvDetPopularity.text = get(EXTRA_POPULARITY).toString()
+    private fun setupView() {
+        val mediaType = intent.extras.getString(EXTRA_MEDIA_TYPE)
+        request.execute(mediaType, intent.extras.getInt(EXTRA_ID)) {
+            detailMediaItem = it
+            tvDetTitle.text = it.title ?: it.name
+            tvDetGender.text = it.genres.joinToString { it.name }
+            tvDetOverview.text = it.overview
+            tvDetVoteAverage.text = it.voteAverage.toString()
+            ivDetBackdrop.loadImg(
+                    it.backDropPath,
+                    VimoApp.PATH_BACKDROP,
+                    resources.getDimensionPixelSize(R.dimen.backDrop_width),
+                    resources.getDimensionPixelSize(R.dimen.backDrop_height))
+
+            if (mediaType == "tv") setupTvView(it) else setupMovieView(it)
+
+            setupFab()
+            setupListener()
+        }
+    }
+
+    private fun setupTvView(detailMediaItem: DetailMediaItem) {
+        val fragment = FragmentDetailTv()
+        fragment.setDetailMediaItem(detailMediaItem)
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.flMediaDetail, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    private fun setupMovieView(detailMediaItem: DetailMediaItem) {
+        val fragment = FragmentDetailMovie()
+        fragment.setDetailMediaItem(detailMediaItem)
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.flMediaDetail, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    private fun setupFab() {
+        fab.backgroundTintList = if (request.isFavorite(detailMediaItem.id)) {
+            detailMediaItem.isFavorite = true
+            resources.getColorStateList(R.color.colorPrimaryDark)
+
+        } else {
+            detailMediaItem.isFavorite = false
+            resources.getColorStateList(R.color.colorAccent)
+        }
+    }
+
+    private fun setupInjection() {
+        VimoApp.graph.plusDetail().inject(this)
     }
 }

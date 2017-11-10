@@ -23,7 +23,20 @@
     <string name="msg_img_desc_poster_img">Imagen de poster</string>
     <string name="msg_img_desc_back_drop">Imagen de fondo</string>
     <string name="det_title_overview">Resumen</string>
-    <string name="det_original_name">Nombre original:</string>
     <string name="msg_img_desc_popularity">Imagen de popularidad</string>
+    <string name="det_first_air_date">"Primera fecha de emisión: "</string>
+    <string name="det_last_air_date">"Última fecha de emisión: "</string>
+    <string name="det_number_of_episodes">"Número de episodios: "</string>
+    <string name="det_number_of_seasons">"Número de temporadas: "</string>
+    <string name="det_release_date">"Fecha de lanzamiento: "</string>
+    <string name="det_revenue">"Recaudación: "</string>
+    <string name="det_runtime">"Tiempo de duración: "</string>
+    <string name="det_budget">"Presupuesto: "</string>
+    <string name="det_tagline">"Lema: "</string>
+    <string name="det_status">"Estado: "</string>
+    <string name="det_popularity">"Popularidad: "</string>
+    <string name="det_vote_count">"Número de votos: "</string>
+    <string name="msg_detail_activity_un_save_favorite">Desmarcado de favoritos</string>
+    <string name="msg_detail_activity_save_favorite">Guardado en favoritos</string>
 
 </resources>

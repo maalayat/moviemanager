@@ -11,9 +11,8 @@ class MediaPagerAdapter(
         val categories: List<String>,
         val titles: List<String>) : SmartFragmentStatePagerAdapter(fm) {
 
-    override fun getItem(position: Int): Fragment {
-        return FragmentProvider.newInstance(mediaType, categories[position])
-    }
+    override fun getItem(position: Int) =
+            FragmentProvider.newInstance(mediaType, categories[position])
 
     override fun getPageTitle(position: Int): CharSequence = titles[position]
 

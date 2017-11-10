@@ -26,12 +26,11 @@
                 android:id="@+id/ivDetBackdrop"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                android:contentDescription="@string/msg_img_desc_back_drop"
+                android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                android:minHeight="100dp"
-                android:contentDescription="@string/msg_img_desc_back_drop"
-                android:fitsSystemWindows="true"/>
+                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbarDetail"

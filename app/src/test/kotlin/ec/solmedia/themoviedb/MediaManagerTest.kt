@@ -1,7 +1,7 @@
 package ec.solmedia.themoviedb;
 
 import android.content.SharedPreferences
-import ec.solmedia.themoviedb.api.TheMovieDBAPI
+import ec.solmedia.themoviedb.api.VimoAPI
 import ec.solmedia.themoviedb.api.TheMovieDBDataResponse
 import ec.solmedia.themoviedb.api.TheMovieDBResponse
 import okhttp3.MediaType
@@ -18,14 +18,14 @@ import retrofit2.Response
 
 class MediaManagerTest {
 //    var testSub = TestSubscriber<Media>()
-    var apiMock = mock<TheMovieDBAPI>()
+    var apiMock = mock<VimoAPI>()
     var callMock = mock<Call<TheMovieDBResponse>>()
     var sPrefMock = mock<SharedPreferences>()
 
     @Before
     fun setup() {
 //        testSub = TestSubscriber<Media>()
-        apiMock = mock<TheMovieDBAPI>()
+        apiMock = mock<VimoAPI>()
         callMock = mock<Call<TheMovieDBResponse>>()
         sPrefMock = mock<SharedPreferences>()
         `when`(apiMock.get(anyString(), anyString(), anyInt(), anyString())).thenReturn(callMock)
@@ -60,7 +60,6 @@ class MediaManagerTest {
                 "overview",
                 "first",
                 "relase",
-                emptyArray(),
                 "otitle",
                 "oname",
                 "olang",
