@@ -1,7 +1,6 @@
 package ec.solmedia.themoviedb.view.fragment
 
 import android.os.Bundle
-import ec.solmedia.themoviedb.view.fragment.MediaFragment
 
 object FragmentProvider {
     val EXTRA_CATEGORY = "FragmentProvider:category"

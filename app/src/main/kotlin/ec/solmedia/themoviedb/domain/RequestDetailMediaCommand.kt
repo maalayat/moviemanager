@@ -1,6 +1,7 @@
 package ec.solmedia.themoviedb.domain
 
 import android.content.SharedPreferences
+import android.util.Log
 import ec.solmedia.themoviedb.VimoApp
 import ec.solmedia.themoviedb.api.VimoAPI
 import ec.solmedia.themoviedb.db.DetailMediaItemSql
@@ -28,6 +29,8 @@ class RequestDetailMediaCommand @Inject constructor(
                     val detailResponse = response.body()
                     val detailConverted = dataMapper.convertDetailItemFromApi(detailResponse)
                     callBack(detailConverted)
+                } else {
+                    Log.e("ReqDetailMediaCommand", "Error al recuperar la informacion de detalle")
                 }
             }
         }

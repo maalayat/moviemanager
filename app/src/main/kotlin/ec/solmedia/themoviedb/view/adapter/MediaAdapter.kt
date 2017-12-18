@@ -58,7 +58,7 @@ class MediaAdapter(itemClick: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycl
         notifyItemRangeInserted(0, items.size)
     }
 
-    fun removeLoadingItem() {
+    private fun removeLoadingItem() {
         val initPosition = items.size - 1
         items.removeAt(initPosition)
         notifyItemRemoved(initPosition)

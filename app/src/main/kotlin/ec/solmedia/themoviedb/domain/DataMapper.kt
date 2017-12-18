@@ -6,7 +6,6 @@ import ec.solmedia.themoviedb.api.TheMovieDBDataResponse
 import ec.solmedia.themoviedb.api.TheMovieDBResponse
 import ec.solmedia.themoviedb.db.DetailMediaItemEntity
 import ec.solmedia.themoviedb.db.GenreEntity
-import ec.solmedia.themoviedb.db.MediaItemEntity
 import ec.solmedia.themoviedb.model.DetailMediaItem
 import ec.solmedia.themoviedb.model.Genre
 import ec.solmedia.themoviedb.model.Media
@@ -151,39 +150,5 @@ class DataMapper {
 
     private fun covertDataBaseToGenre(genreEntity: GenreEntity): Genre {
         return Genre(genreEntity._id, genreEntity.name)
-    }
-
-    fun convertDomainToDataBase(mediaItem: MediaItem): MediaItemEntity {
-        return MediaItemEntity(mediaItem.id,
-                mediaItem.title,
-                mediaItem.name,
-                mediaItem.overView,
-                mediaItem.firstAirDate,
-                mediaItem.releaseDate,
-                mediaItem.originalTitle,
-                mediaItem.originalName,
-                mediaItem.originalLanguage,
-                mediaItem.popularity,
-                mediaItem.voteAverage,
-                mediaItem.voteCount,
-                mediaItem.posterPath,
-                mediaItem.backDropPath)
-    }
-
-    fun convertDataBaseToDomain(mediaItemEntity: MediaItemEntity): MediaItem {
-        return MediaItem(mediaItemEntity._id,
-                mediaItemEntity.title,
-                mediaItemEntity.name,
-                mediaItemEntity.overView,
-                mediaItemEntity.firstAirDate,
-                mediaItemEntity.releaseDate,
-                mediaItemEntity.originalTitle,
-                mediaItemEntity.originalName,
-                mediaItemEntity.originalLanguage,
-                mediaItemEntity.popularity,
-                mediaItemEntity.voteAverage,
-                mediaItemEntity.voteCount,
-                mediaItemEntity.posterPath,
-                mediaItemEntity.backDropPath)
     }
 }

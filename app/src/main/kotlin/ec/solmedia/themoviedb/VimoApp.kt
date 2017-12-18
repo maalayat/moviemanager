@@ -25,7 +25,7 @@ class VimoApp : Application() {
         super.onCreate()
 
         setupLeakCanary()
-//        setupCrashReports()
+        setupCrashReports()
         setupDagger()
     }
 

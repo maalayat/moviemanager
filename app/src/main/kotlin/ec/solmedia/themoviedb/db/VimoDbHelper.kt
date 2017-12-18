@@ -46,7 +46,7 @@ class VimoDbHelper @Inject constructor(context: Context) :
 
         db.createTable(
                 GenreTable.TABLE_NAME, true,
-                GenreTable.ID to INTEGER + PRIMARY_KEY,
+                GenreTable.ID to INTEGER,
                 GenreTable.NAME to TEXT,
                 GenreTable.DETAIL_MEDIA_ITEM_ID to INTEGER)
     }

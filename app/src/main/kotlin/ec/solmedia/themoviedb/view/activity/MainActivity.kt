@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import ec.solmedia.themoviedb.R
 import ec.solmedia.themoviedb.VimoApp
 import ec.solmedia.themoviedb.commons.extensions.consume

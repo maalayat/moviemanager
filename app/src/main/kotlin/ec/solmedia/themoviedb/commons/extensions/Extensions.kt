@@ -8,6 +8,8 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.LayoutRes
 import android.support.design.widget.Snackbar
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.widget.DrawerLayout
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -74,3 +76,7 @@ inline fun <reified T : Parcelable> createParcel(
             override fun createFromParcel(source: Parcel): T? = createFromParcel(source)
             override fun newArray(size: Int): Array<out T?> = arrayOfNulls(size)
         }
+
+inline fun FragmentManager.inTransaction(func: FragmentTransaction.() -> FragmentTransaction) {
+    beginTransaction().func().commit()
+}

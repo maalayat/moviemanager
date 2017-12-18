@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ec.solmedia.themoviedb.VimoApp
-import ec.solmedia.themoviedb.db.MediaItemSql
+import ec.solmedia.themoviedb.db.DetailMediaItemSql
 import ec.solmedia.themoviedb.db.VimoDbHelper
 import ec.solmedia.themoviedb.domain.DataMapper
 import javax.inject.Singleton
@@ -36,5 +36,5 @@ class ApplicationModule(val app: VimoApp) {
 
     @Provides
     @Singleton
-    fun providesMediaItemSql(vimoDbHelper: VimoDbHelper): MediaItemSql = MediaItemSql(vimoDbHelper)
+    fun providesDetailMediaItemSql(vimoDbHelper: VimoDbHelper) = DetailMediaItemSql(vimoDbHelper)
 }

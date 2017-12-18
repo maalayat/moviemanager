@@ -1,43 +1,5 @@
 package ec.solmedia.themoviedb.db
 
-class MediaItemEntity(val map: MutableMap<String, Any?>) {
-    var _id: Int by map
-    var title: String? by map
-    var name: String? by map
-    var overView: String by map
-    var firstAirDate: String? by map
-    var releaseDate: String? by map
-    var originalTitle: String? by map
-    var originalName: String? by map
-    var originalLanguage: String by map
-    var popularity: Float by map
-    var voteAverage: Float by map
-    var voteCount: Int by map
-    var posterPath: String by map
-    var backDropPath: String by map
-
-    constructor(
-            id: Int, title: String?, name: String?, overView: String, firstAirDate: String?,
-            releaseDate: String?, originalTitle: String?, originalName: String?,
-            originalLanguage: String, popularity: Float, voteAverage: Float, voteCount: Int,
-            posterPath: String, backDropPath: String) : this(HashMap()) {
-        this._id = id
-        this.title = title
-        this.name = name
-        this.overView = overView
-        this.firstAirDate = firstAirDate
-        this.releaseDate = releaseDate
-        this.originalTitle = originalTitle
-        this.originalName = originalName
-        this.originalLanguage = originalLanguage
-        this.popularity = popularity
-        this.voteAverage = voteAverage
-        this.voteCount = voteCount
-        this.posterPath = posterPath
-        this.backDropPath = backDropPath
-    }
-}
-
 class DetailMediaItemEntity(
         val map: MutableMap<String, Any?>, val genreEntityList: List<GenreEntity>) {
     var _id: Int by map
