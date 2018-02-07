@@ -29,7 +29,7 @@ class FragmentDetailMovie : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null && savedInstanceState.containsKey(FragmentDetailTv.DETAIL_MEDIA_ITEM)) {
+        savedInstanceState?.containsKey(FragmentDetailTv.DETAIL_MEDIA_ITEM)?.let {
             detailMediaItem = savedInstanceState.getParcelable(FragmentDetailTv.DETAIL_MEDIA_ITEM)
         }
 

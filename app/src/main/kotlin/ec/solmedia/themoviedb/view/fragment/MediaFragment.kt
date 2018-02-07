@@ -1,7 +1,6 @@
 package ec.solmedia.themoviedb.view.fragment
 
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -17,6 +16,7 @@ import ec.solmedia.themoviedb.model.MediaItem
 import ec.solmedia.themoviedb.view.activity.MediaDetailActivity
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
 import kotlinx.android.synthetic.main.fragment_media.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -51,7 +51,7 @@ class MediaFragment : Fragment() {
         setupRecyclerView()
         setupAdapter()
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_TITLE)) {
+        savedInstanceState?.containsKey(KEY_TITLE)?.let {
             activity.title = savedInstanceState.get(KEY_TITLE) as CharSequence?
         }
 
@@ -94,11 +94,10 @@ class MediaFragment : Fragment() {
     }
 
     private fun navigateToMediaDetail(mediaItem: MediaItem) {
-        val intent = Intent(context, MediaDetailActivity::class.java)
-        intent.putExtra(MediaDetailActivity.EXTRA_ID, mediaItem.id)
-        intent.putExtra(MediaDetailActivity.EXTRA_MEDIA_TYPE, mediaType)
-        intent.putExtra(MediaDetailActivity.EXTRA_CATEGORY, category)
-
-        startActivity(intent)
+        activity.startActivity<MediaDetailActivity>(
+                MediaDetailActivity.EXTRA_ID to mediaItem.id,
+                MediaDetailActivity.EXTRA_MEDIA_TYPE to mediaType,
+                MediaDetailActivity.EXTRA_CATEGORY to category
+        )
     }
 }

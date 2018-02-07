@@ -33,7 +33,7 @@ class FragmentDetailTv : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (savedInstanceState != null && savedInstanceState.containsKey(FragmentDetailTv.DETAIL_MEDIA_ITEM)) {
+        savedInstanceState?.containsKey(FragmentDetailTv.DETAIL_MEDIA_ITEM)?.let {
             detailMediaItem = savedInstanceState.getParcelable(FragmentDetailTv.DETAIL_MEDIA_ITEM)
         }
         if (detailMediaItem == null) activity.toast("Informacion de detalle no se pudo mostrar")
