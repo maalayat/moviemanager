@@ -4,7 +4,7 @@ class DetailMediaItemEntity(
         val map: MutableMap<String, Any?>, val genreEntityList: List<GenreEntity>) {
     var _id: Int by map
     var overview: String by map
-    var homepage: String by map
+    var homepage: String? by map
     var name: String? by map
     var inProduction: String? by map
     var originalName: String? by map
@@ -30,7 +30,7 @@ class DetailMediaItemEntity(
     var backDropPath: String by map
 
     constructor(
-            id: Int, overview: String, homepage: String, name: String?, inProduction: String?,
+            id: Int, overview: String, homepage: String?, name: String?, inProduction: String?,
             originalName: String?, firstAirDate: String?, lastAirDate: String?,
             numberOfEpisodes: Int?, numberOfSeasons: Int?, type: String?, title: String?,
             imdbId: String?, releaseDate: String?, revenue: Int?, originalTitle: String?,

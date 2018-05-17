@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class DetailMediaItem(
         val id: Int,
         val overview: String,
-        val homepage: String,
+        val homepage: String?,
         val name: String?,
         val inProduction: Boolean?,
         val originalName: String?,
