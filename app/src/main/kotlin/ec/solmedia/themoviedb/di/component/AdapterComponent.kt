@@ -6,7 +6,7 @@ import ec.solmedia.themoviedb.di.scope.ActivityScope
 import ec.solmedia.themoviedb.view.activity.MainActivity
 
 @ActivityScope
-@Subcomponent(modules = arrayOf(AdapterModule::class))
+@Subcomponent(modules = [(AdapterModule::class)])
 interface AdapterComponent {
     fun inject(mainActivity: MainActivity)
 }

@@ -7,7 +7,7 @@ import ec.solmedia.themoviedb.di.module.NetworkModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(ApplicationModule::class, NetworkModule::class))
+@Component(modules = [(ApplicationModule::class), (NetworkModule::class)])
 interface ApplicationComponent {
     fun plus(module: AdapterModule): AdapterComponent
     fun plus(): FragmentComponent

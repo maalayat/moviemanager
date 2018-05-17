@@ -4,6 +4,7 @@ package ec.solmedia.themoviedb.view.fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import ec.solmedia.themoviedb.VimoApp
 import ec.solmedia.themoviedb.commons.InfiniteScrollListener
 import ec.solmedia.themoviedb.commons.extensions.inflate
 import ec.solmedia.themoviedb.domain.RequestMediaCommand
+import ec.solmedia.themoviedb.model.Media
 import ec.solmedia.themoviedb.model.MediaItem
 import ec.solmedia.themoviedb.view.activity.MediaDetailActivity
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
@@ -22,14 +24,17 @@ import javax.inject.Inject
 
 class MediaFragment : Fragment() {
 
-    @Inject lateinit var request: RequestMediaCommand
+    @Inject
+    lateinit var request: RequestMediaCommand
     private lateinit var category: String
     private lateinit var mediaType: String
+    private lateinit var media: Media
 
     private val adapter = MediaAdapter { navigateToMediaDetail(it) }
 
     companion object {
         val KEY_TITLE = "title"
+        val KEY_ITEMS = "items"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,23 +56,40 @@ class MediaFragment : Fragment() {
         setupRecyclerView()
         setupAdapter()
 
-        savedInstanceState?.containsKey(KEY_TITLE)?.let {
+        /*savedInstanceState?.containsKey(KEY_TITLE)?.let {
             activity.title = savedInstanceState.get(KEY_TITLE) as CharSequence?
+        }*/
+
+        savedInstanceState?.containsKey(KEY_ITEMS)?.let {
+            Log.d("MediaFragment", "Saved instance")
+            media = savedInstanceState.getParcelable(KEY_ITEMS)
+            adapter.clearAndAddMediaItems(media.mediaItems)
+            activity.title = savedInstanceState.get(KEY_TITLE) as CharSequence?
+        } ?: kotlin.run {
+            Log.d("MediaFragment", "RequestMedia")
+            requestMedia()
         }
 
-        //TODO fix saveInstance
-        requestMedia()
+
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(KEY_TITLE, activity.title.toString())
-
         super.onSaveInstanceState(outState)
+        outState.putString(KEY_TITLE, activity.title.toString())
+        val adapterMediaItems = adapter.getMediaItems()
+        adapterMediaItems.let {
+            //outState.putParcelable(KEY_ITEMS, media)
+            outState.putParcelable(KEY_ITEMS, media.copy(mediaItems = adapterMediaItems))
+        }
+
     }
 
     private fun requestMedia() {
         request.execute(mediaType, category) {
-            adapter.addMediaItems(it.mediaItems)
+            it?.let { media ->
+                adapter.addMediaItems(media.mediaItems)
+                this.media = media
+            }
         }
     }
 

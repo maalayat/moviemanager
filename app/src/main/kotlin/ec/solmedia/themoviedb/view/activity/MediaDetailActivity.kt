@@ -22,7 +22,8 @@ import javax.inject.Inject
 
 class MediaDetailActivity : AppCompatActivity() {
 
-    @Inject lateinit var request: RequestDetailMediaCommand
+    @Inject
+    lateinit var request: RequestDetailMediaCommand
     private var detailMediaItem: DetailMediaItem? = null
 
     companion object {
@@ -78,7 +79,7 @@ class MediaDetailActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.decorView.systemUiVisibility =
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             window.statusBarColor = Color.TRANSPARENT
         }
     }
@@ -87,22 +88,24 @@ class MediaDetailActivity : AppCompatActivity() {
         val mediaType = intent.extras.getString(EXTRA_MEDIA_TYPE)
         val mediaId = intent.extras.getInt(EXTRA_ID)
         request.execute(mediaType, mediaId) {
-            detailMediaItem = it
-            tvDetTitle.text = it.title ?: it.name
-            tvDetGender.text = it.genres.joinToString { it.name }
-            tvDetOverview.text = it.overview
-            tvDetVoteAverage.text = it.voteAverage.toString()
-            ivDetBackdrop.loadImg(
-                    it.backDropPath,
-                    VimoApp.PATH_BACKDROP,
-                    resources.getDimensionPixelSize(R.dimen.backDrop_width),
-                    resources.getDimensionPixelSize(R.dimen.backDrop_height))
+            it?.let {
+                detailMediaItem = it
+                tvDetTitle.text = it.title ?: it.name
+                tvDetGender.text = it.genres.joinToString { it.name }
+                tvDetOverview.text = it.overview
+                tvDetVoteAverage.text = it.voteAverage.toString()
+                ivDetBackdrop.loadImg(
+                        it.backDropPath,
+                        VimoApp.PATH_BACKDROP,
+                        resources.getDimensionPixelSize(R.dimen.backDrop_width),
+                        resources.getDimensionPixelSize(R.dimen.backDrop_height))
 
-            if (mediaType == "tv") setupTvView() else setupMovieView()
-
-            setupFab()
-            setupListener()
+                if (mediaType == "tv") setupTvView() else setupMovieView()
+                setupFab()
+                setupListener()
+            }
         }
+
     }
 
     private fun setupTvView() {

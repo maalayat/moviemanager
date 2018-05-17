@@ -1,14 +1,18 @@
 package ec.solmedia.themoviedb.model
 
+import android.os.Parcelable
 import ec.solmedia.themoviedb.commons.adapter.AdapterConstants
 import ec.solmedia.themoviedb.commons.adapter.ViewType
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Media(
         val page: Int = 0,
         val totalResults: Int = 0,
         val totalPages: Int = 1,
-        val mediaItems: List<MediaItem> = emptyList())
+        val mediaItems: List<MediaItem> = emptyList()) : Parcelable
 
+@Parcelize
 data class MediaItem(
         val id: Int,
         val title: String?,
@@ -24,6 +28,6 @@ data class MediaItem(
         val voteCount: Int,
         val posterPath: String,
         val backDropPath: String
-) : ViewType {
+) : Parcelable, ViewType {
     override fun getViewType(): Int = AdapterConstants.MEDIA
 }
