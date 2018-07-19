@@ -24,21 +24,16 @@ class MediaAdapter(itemClick: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycl
         items.add(loadingItem)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return delegateAdapters.get(viewType).onCreateViewHolder(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+            delegateAdapters.get(viewType).onCreateViewHolder(parent)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         delegateAdapters.get(getItemViewType(position)).onBindViewHolder(holder, this.items[position])
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
-    override fun getItemViewType(position: Int): Int {
-        return this.items[position].getViewType()
-    }
+    override fun getItemViewType(position: Int): Int = this.items[position].getViewType()
 
     fun addMediaItems(mediaItems: List<MediaItem>) {
         removeLoadingItem()
@@ -58,7 +53,7 @@ class MediaAdapter(itemClick: (MediaItem) -> Unit) : RecyclerView.Adapter<Recycl
         notifyItemRangeInserted(0, items.size)
     }
 
-    private fun removeLoadingItem() {
+    fun removeLoadingItem() {
         val initPosition = items.size - 1
         items.removeAt(initPosition)
         notifyItemRemoved(initPosition)

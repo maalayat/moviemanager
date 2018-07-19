@@ -1,6 +1,5 @@
 package ec.solmedia.themoviedb.view.fragment
 
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -18,6 +17,7 @@ import ec.solmedia.themoviedb.model.MediaItem
 import ec.solmedia.themoviedb.view.activity.MediaDetailActivity
 import ec.solmedia.themoviedb.view.adapter.MediaAdapter
 import kotlinx.android.synthetic.main.fragment_media.*
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -28,7 +28,7 @@ class MediaFragment : Fragment() {
     lateinit var request: RequestMediaCommand
     private lateinit var category: String
     private lateinit var mediaType: String
-    private lateinit var media: Media
+    private var media: Media? = null
 
     private val adapter = MediaAdapter { navigateToMediaDetail(it) }
 
@@ -56,40 +56,33 @@ class MediaFragment : Fragment() {
         setupRecyclerView()
         setupAdapter()
 
-        /*savedInstanceState?.containsKey(KEY_TITLE)?.let {
-            activity.title = savedInstanceState.get(KEY_TITLE) as CharSequence?
-        }*/
-
         savedInstanceState?.containsKey(KEY_ITEMS)?.let {
             Log.d("MediaFragment", "Saved instance")
             media = savedInstanceState.getParcelable(KEY_ITEMS)
-            adapter.clearAndAddMediaItems(media.mediaItems)
+            val mediaSaved = media?.mediaItems ?: emptyList()
+            adapter.clearAndAddMediaItems(mediaSaved)
             activity.title = savedInstanceState.get(KEY_TITLE) as CharSequence?
         } ?: kotlin.run {
             Log.d("MediaFragment", "RequestMedia")
             requestMedia()
         }
-
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(KEY_TITLE, activity.title.toString())
         val adapterMediaItems = adapter.getMediaItems()
-        adapterMediaItems.let {
-            //outState.putParcelable(KEY_ITEMS, media)
-            outState.putParcelable(KEY_ITEMS, media.copy(mediaItems = adapterMediaItems))
+        media?.let {
+            adapterMediaItems.let {
+                outState.putParcelable(KEY_ITEMS, media?.copy(mediaItems = adapterMediaItems))
+            }
         }
-
     }
 
     private fun requestMedia() {
-        request.execute(mediaType, category) {
-            it?.let { media ->
-                adapter.addMediaItems(media.mediaItems)
-                this.media = media
-            }
+        request.execute(mediaType, category, ::showError) {
+            adapter.addMediaItems(it.mediaItems)
+            this.media = it
         }
     }
 
@@ -113,6 +106,11 @@ class MediaFragment : Fragment() {
         if (rvMedia.adapter == null) {
             rvMedia.adapter = adapter
         }
+    }
+
+    private fun showError() {
+        adapter.removeLoadingItem()
+        activity.longToast(getString(R.string.msg_error_media))
     }
 
     private fun navigateToMediaDetail(mediaItem: MediaItem) {

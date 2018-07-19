@@ -88,7 +88,7 @@ class MediaDetailActivity : AppCompatActivity() {
         val mediaType = intent.extras.getString(EXTRA_MEDIA_TYPE)
         val mediaId = intent.extras.getInt(EXTRA_ID)
         request.execute(mediaType, mediaId) {
-            it?.let {
+            it.let {
                 detailMediaItem = it
                 tvDetTitle.text = it.title ?: it.name
                 tvDetGender.text = it.genres.joinToString { it.name }

@@ -38,5 +38,6 @@
     <string name="det_vote_count">"Número de votos: "</string>
     <string name="msg_detail_activity_un_save_favorite">Desmarcado de favoritos</string>
     <string name="msg_detail_activity_save_favorite">Guardado en favoritos</string>
+    <string name="msg_error_media">La información no se puede mostrar en este momento</string>
 
 </resources>

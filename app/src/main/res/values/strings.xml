@@ -57,4 +57,5 @@
     <string name="det_vote_count">Vote count: </string>
     <string name="msg_detail_activity_un_save_favorite">Media unsaved as favorite</string>
     <string name="msg_detail_activity_save_favorite">Media saved as favorite</string>
+    <string name="msg_error_media">The information cannot be displayed at this time.</string>
 </resources>
